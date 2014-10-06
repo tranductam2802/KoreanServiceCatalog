@@ -4,11 +4,18 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- SDK version -->
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
 
+    <!-- User permission -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Application information -->
     <application
+        android:name="gdg.nat.ksc.config.KSCApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"

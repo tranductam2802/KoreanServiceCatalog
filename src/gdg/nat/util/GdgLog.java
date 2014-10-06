@@ -1,6 +1,6 @@
-package gdg.nat.ksc.util;
+package gdg.nat.util;
 
-import gdg.nat.ksc.Config;
+import gdg.nat.ksc.config.Config;
 import android.util.Log;
 
 public class GdgLog {
