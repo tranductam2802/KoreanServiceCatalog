@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/item_service_height"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin" >
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:drawablePadding="2dp"
+        android:layout_toLeftOf="@id/avatar"
         android:ellipsize="end"
         android:paddingTop="@dimen/txt_name_service_padding_big"
         android:singleLine="true"
@@ -21,14 +21,15 @@
         android:typeface="sans" />
 
     <TextView
-        android:id="@id/description"
+        android:id="@id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
-        android:layout_toLeftOf="@id/distance"
+        android:layout_toLeftOf="@id/avatar"
         android:ellipsize="end"
         android:lines="2"
         android:paddingBottom="@dimen/txt_name_service_padding_big"
+        android:paddingTop="@dimen/txt_name_service_padding_small"
         android:textSize="12sp"
         android:textStyle="normal"
         android:typeface="sans" />
@@ -39,19 +40,45 @@
         android:layout_alignParentBottom="true"
         android:background="@color/divider_service_list" />
 
-    <TextView
-        android:id="@id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@id/avatar"
+        android:layout_width="@dimen/ava_service_size"
+        android:layout_height="@dimen/ava_service_size"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:drawableTop="@drawable/ic_distance"
-        android:ellipsize="end"
-        android:paddingLeft="@dimen/txt_name_service_padding_big"
-        android:paddingRight="@dimen/txt_name_service_padding_small"
-        android:singleLine="true"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        android:typeface="sans" />
+        android:padding="@dimen/txt_name_service_padding_small" >
+
+        <Button
+            android:id="@id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_distance"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:typeface="sans" />
+
+            <ImageView
+                android:id="@id/promotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/txt_name_service_padding_small"
+                android:contentDescription="@string/image_description"
+                android:src="@drawable/ic_promotion" />
+        </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>

@@ -10,14 +10,14 @@
     <dimen name="navi_bar_icon_horizontal_padding">10dp</dimen>
 
     <!-- Item service -->
-    <dimen name="ava_service_size">65dp</dimen>
-    <dimen name="service_padding">7dp</dimen>
-    <dimen name="txt_name_service_padding_big">5dp</dimen>
-    <dimen name="txt_name_service_padding_small">2dp</dimen>
+    <dimen name="item_service_height">76dp</dimen>
+    <dimen name="ava_service_size">60dp</dimen>
+    <dimen name="txt_name_service_padding_big">10dp</dimen>
+    <dimen name="txt_name_service_padding_small">5dp</dimen>
 
     <!-- Item category -->
-    <dimen name="view_category_size">80dp</dimen>
-    <dimen name="ic_category_size">50dp</dimen>
+    <dimen name="view_category_size">110dp</dimen>
+    <dimen name="ic_category_size">70dp</dimen>
     <dimen name="ic_category_margin_top">5dp</dimen>
     <dimen name="ic_category_space">1dp</dimen>
 

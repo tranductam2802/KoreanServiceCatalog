@@ -103,8 +103,7 @@ public class ListServiceAdapter extends BaseAdapter {
 			holder.layout = (RelativeLayout) convertView
 					.findViewById(R.id.layout);
 			holder.name = (TextView) convertView.findViewById(R.id.name);
-			holder.description = (TextView) convertView
-					.findViewById(R.id.description);
+			holder.address = (TextView) convertView.findViewById(R.id.address);
 			holder.distance = (TextView) convertView
 					.findViewById(R.id.distance);
 			convertView.setTag(holder);
@@ -118,7 +117,7 @@ public class ListServiceAdapter extends BaseAdapter {
 		// Set service name
 		holder.name.setText(services.getName());
 		// Set service description
-		holder.description.setText(services.getDescription());
+		holder.address.setText(services.getDescription());
 		// Set distance from service
 		if (services.getDistance() > 1) {
 			holder.distance
@@ -139,7 +138,7 @@ public class ListServiceAdapter extends BaseAdapter {
 	public class ServiceHolder {
 		public RelativeLayout layout;
 		public TextView name;
-		public TextView description;
+		public TextView address;
 		public TextView distance;
 	}
 }

@@ -16,14 +16,18 @@
         android:divider="@android:color/transparent"
         android:gravity="center_horizontal"
         android:listSelector="@android:color/transparent"
-        android:numColumns="4"
+        android:numColumns="3"
         android:orientation="vertical"
+        android:scrollbars="none"
         android:stretchMode="columnWidth" />
 
     <FrameLayout
         android:id="@id/ads"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ads_height"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <include layout="@layout/item_service" />
+    </FrameLayout>
 
 </RelativeLayout>

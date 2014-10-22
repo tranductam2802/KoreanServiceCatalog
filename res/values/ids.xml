@@ -35,5 +35,7 @@
     <item name="layout" type="id"/>
     <item name="sliding_tabs" type="id"/>
     <item name="viewpager" type="id"/>
+    <item name="promotion" type="id"/>
+    <item name="submit" type="id"/>
 
 </resources>

@@ -161,7 +161,7 @@ public class ListServiceFragment extends BaseFragment implements
 					Service service = adapter.getItem(position);
 					String serviceId = service.getId();
 					String name = service.getName();
-					ServiceFragment fragment = ServiceFragment.newInstance(
+					DetailServiceFragment fragment = DetailServiceFragment.newInstance(
 							serviceId, name);
 					getNavigationManager().showPage(fragment);
 				}

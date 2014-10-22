@@ -2,85 +2,46 @@ package gdg.nat.ksc.present.fragment;
 
 import gdg.nat.base.BaseFragment;
 import gdg.nat.ksc.R;
-import gdg.nat.view.SlidingTabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import android.graphics.Color;
+import gdg.nat.ksc.present.adapter.ListServiceAdapter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class ServiceFragment extends BaseFragment {
 	private final String TAG = "TrackingServiceFragment";
 
-	private final String INTENT_ID = "id";
-	private final String INTENT_NAME = "name";
+	private final String INTENT_CATE_NAME = "name";
+	private final String INTENT_CATE_ID = "cate_id";
+	private final String INTENT_CITY = "city";
 
-	private String id = "";
-	private String name = "";
+	private ListView mList;
 
-	private SlidingTabLayout mSlidingTabLayout;
-	private ViewPager mViewPager;
-	private List<SamplePagerItem> mTabs = new ArrayList<SamplePagerItem>();
+	private ListServiceAdapter adapter;
 
-	public static ServiceFragment newInstance(String id, String name) {
+	public final int NEW_SERVICE = 0;
+	public final int CITY_HA_NOI = 1;
+	public final int CITY_HO_CHI_MINH = 2;
+
+	private String screenName = "";
+	private String cateId = "";
+	private int city = CITY_HA_NOI;
+
+	public static ServiceFragment newInstance(String cate_id, String cate_name,
+			int city) {
 		ServiceFragment fragment = new ServiceFragment();
+		if (city != fragment.CITY_HA_NOI && city != fragment.CITY_HO_CHI_MINH)
+			throw new IllegalArgumentException("city value(" + city
+					+ ") is not Ha Noi or Ho Chi Minh");
+
 		Bundle bundle = new Bundle();
-		bundle.putString(fragment.INTENT_ID, id);
-		bundle.putString(fragment.INTENT_NAME, name);
+		bundle.putString(fragment.INTENT_CATE_ID, cate_id);
+		bundle.putString(fragment.INTENT_CATE_NAME, cate_name);
+		bundle.putInt(fragment.INTENT_CITY, city);
 		fragment.setArguments(bundle);
 		return fragment;
-	}
-
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (savedInstanceState == null) {
-			Bundle bundle = getArguments();
-			id = bundle.getString(INTENT_ID);
-			name = bundle.getString(INTENT_NAME);
-		} else {
-			id = savedInstanceState.getString(INTENT_ID);
-			name = savedInstanceState.getString(INTENT_NAME);
-		}
-		initData();
-	}
-
-	private void initData() {
-		String name = "Ha Noi";
-		String address = "Demo address of Ha Noi";
-
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_description), Color.BLUE,
-				Color.GRAY, DescriptionFragment.newInstance(name, address,
-						"+84 511 393 8888", "http://tranductam.com")));
-
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_image), Color.RED,
-				Color.GRAY, new ImageFragment()));
-
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_map), Color.YELLOW,
-				Color.GRAY, MapFragment.newInstance(name, address, 105.852283,
-						21.02785)));
-
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_contact), Color.GREEN,
-				Color.GRAY, new ContactFragment()));
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(INTENT_ID, id);
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -90,90 +51,36 @@ public class ServiceFragment extends BaseFragment {
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-		mViewPager.setAdapter(new SampleFragmentPagerAdapter(
-				getChildFragmentManager()));
-		mSlidingTabLayout = (SlidingTabLayout) view
-				.findViewById(R.id.sliding_tabs);
-		mSlidingTabLayout.setViewPager(mViewPager);
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			if (bundle.containsKey(INTENT_CATE_NAME)) {
+				screenName = bundle.getString(INTENT_CATE_NAME);
+			}
+			if (bundle.containsKey(INTENT_CATE_ID)) {
+				cateId = bundle.getString(INTENT_CATE_ID);
+			}
+			if (bundle.containsKey(INTENT_CITY)) {
+				city = bundle.getInt(INTENT_CITY);
+			}
+		}
+		mList = (ListView) view.findViewById(R.id.list);
 
-		mSlidingTabLayout
-				.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+		if (adapter == null) {
+			adapter = new ListServiceAdapter(getActivity());
+		}
 
-					@Override
-					public int getIndicatorColor(int position) {
-						return mTabs.get(position).getIndicatorColor();
-					}
-
-					@Override
-					public int getDividerColor(int position) {
-						return mTabs.get(position).getDividerColor();
-					}
-
-				});
-	}
-
-	@Override
-	public String getTitle() {
-		return name;
+		mList.setAdapter(adapter);
+		if (screenName.length() > 0) {
+			getNavigationBar().setTitle(screenName);
+		} else {
+			getNavigationBar().setTitle(R.string.title_new_service_screen);
+		}
 	}
 
 	@Override
 	public String getFragmentTag() {
 		return TAG;
-	}
-
-	static class SamplePagerItem {
-		private final CharSequence mTitle;
-		private final int mIndicatorColor;
-		private final int mDividerColor;
-		private Fragment fragment;
-
-		SamplePagerItem(CharSequence title, int indicatorColor,
-				int dividerColor, Fragment fragment) {
-			mTitle = title;
-			mIndicatorColor = indicatorColor;
-			mDividerColor = dividerColor;
-			this.fragment = fragment;
-		}
-
-		Fragment createFragment() {
-			return fragment;
-		}
-
-		CharSequence getTitle() {
-			return mTitle;
-		}
-
-		int getIndicatorColor() {
-			return mIndicatorColor;
-		}
-
-		int getDividerColor() {
-			return mDividerColor;
-		}
-	}
-
-	class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-
-		SampleFragmentPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int i) {
-			return mTabs.get(i).createFragment();
-		}
-
-		@Override
-		public int getCount() {
-			return mTabs.size();
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return mTabs.get(position).getTitle();
-		}
 	}
 }
