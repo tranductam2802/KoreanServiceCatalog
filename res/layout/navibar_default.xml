@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/navibar_head"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/navi_bar_height"
+    android:background="@color/bg_navibar" >
+
+    <LinearLayout
+        android:id="@id/navibar_left_group"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_back"
+            android:gravity="center"
+            android:paddingBottom="@dimen/navi_bar_icon_vertical_padding"
+            android:paddingLeft="@dimen/navi_bar_icon_horizontal_padding"
+            android:paddingRight="@dimen/navi_bar_icon_horizontal_padding"
+            android:paddingTop="@dimen/navi_bar_icon_vertical_padding" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/navibar_center_group"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/navibar_right_group"
+        android:layout_toRightOf="@id/navibar_left_group"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@id/title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="@string/app_name"
+            android:textColor="@color/txt_navi_view"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="sans" />
+
+        <EditText
+            android:id="@id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_navi_search_box"
+            android:gravity="left|center_vertical"
+            android:hint="@string/hint_search"
+            android:padding="5dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/navibar_right_group"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_search"
+            android:gravity="center"
+            android:paddingBottom="@dimen/navi_bar_icon_vertical_padding"
+            android:paddingLeft="@dimen/navi_bar_icon_horizontal_padding"
+            android:paddingRight="@dimen/navi_bar_icon_horizontal_padding"
+            android:paddingTop="@dimen/navi_bar_icon_vertical_padding"
+            android:singleLine="true" />
+    </LinearLayout>
+
+</RelativeLayout>

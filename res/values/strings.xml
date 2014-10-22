@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Common -->
     <string name="app_name">KoreanServiceCatalog</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_title">Korean Service Catalog</string>
     <string name="action_settings">Settings</string>
+    <string name="image_description">image_description</string>
+    <string name="unit_km">%1$.2fkm</string>
+    <string name="unit_mile">%1$.2fsmile</string>
+    <string name="unit_near">near by</string>
+
+    <!-- Navigation -->
+    <string name="btn_search">Search</string>
+    <string name="hint_search">Search service</string>
+
+    <!-- Screen title -->
+    <string name="title_categories_screen">Categories</string>
+    <string name="title_service_tab_description">Description</string>
+    <string name="title_service_tab_image">Images</string>
+    <string name="title_service_tab_map">Map</string>
+    <string name="title_service_tab_contact">Contact</string>
+
+    <!-- Service tab -->
+    <string name="service_description_name">Service name</string>
+    <string name="service_description_address">Address</string>
+    <string name="service_description_phone">Phone</string>
+    <string name="service_description_website">Website</string>
+
+    <!-- Error code -->
+    <string name="error_btn_positive">Got it!</string>
+    <string name="error_btn_negative">Dismiss</string>
+    <string name="title_error">System error</string>
+    <string name="error_unknow">Unknow error</string>
+    <string name="error_no_connection">No connection</string>
 
 </resources>

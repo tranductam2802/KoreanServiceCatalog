@@ -4,4 +4,24 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Navigation bar -->
+    <dimen name="navi_bar_height">48dp</dimen>
+    <dimen name="navi_bar_icon_vertical_padding">10dp</dimen>
+    <dimen name="navi_bar_icon_horizontal_padding">10dp</dimen>
+
+    <!-- Item service -->
+    <dimen name="ava_service_size">65dp</dimen>
+    <dimen name="service_padding">7dp</dimen>
+    <dimen name="txt_name_service_padding_big">5dp</dimen>
+    <dimen name="txt_name_service_padding_small">2dp</dimen>
+
+    <!-- Item category -->
+    <dimen name="view_category_size">80dp</dimen>
+    <dimen name="ic_category_size">50dp</dimen>
+    <dimen name="ic_category_margin_top">5dp</dimen>
+    <dimen name="ic_category_space">1dp</dimen>
+
+    <!-- Advertide -->
+    <dimen name="ads_height">96dp</dimen>
+
 </resources>
