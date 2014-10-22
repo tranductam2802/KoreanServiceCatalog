@@ -2,26 +2,18 @@ package gdg.nat.connection;
 
 import java.io.Serializable;
 
-import com.google.gson.Gson;
-
+@SuppressWarnings("serial")
 public abstract class RequestParam implements Serializable {
-	private static final long serialVersionUID = -4942903539643673029L;
+	public final String SLASH = "/";
+	public final String API = "api";
+	public static final EHttpMethod DEFAULT_HTTP_METHOD = EHttpMethod.GET;
+	private EHttpMethod httpMethod = DEFAULT_HTTP_METHOD;
 
-	private String api = "";
-
-	protected abstract void setApi();
-
-	protected void setApi(String api) {
-		this.api = api;
+	public EHttpMethod getHttpMethod() {
+		return httpMethod;
 	}
 
-	public String getApi() {
-		return api;
-	}
+	public abstract String getApi();
 
-	@Override
-	public String toString() {
-		Gson gson = new Gson();
-		return gson.toJson(this);
-	}
+	public abstract String getParam();
 }

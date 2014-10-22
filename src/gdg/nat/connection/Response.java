@@ -1,16 +1,11 @@
 package gdg.nat.connection;
 
 public class Response {
-	protected String api;
-	protected String requestParam;
+	protected RequestParam requestParam;
 	protected int responseCode;
 	protected String responseData;
 
-	public String getApi() {
-		return api;
-	}
-
-	public String getRequestParam() {
+	public RequestParam getRequestParam() {
 		return requestParam;
 	}
 
@@ -22,11 +17,16 @@ public class Response {
 		return responseData;
 	}
 
-	public Response(String api, String requestPram, int responseCode,
+	public Response(RequestParam requestPram, int responseCode,
 			String responseData) {
-		this.api = api;
 		this.requestParam = requestPram;
 		this.responseCode = responseCode;
 		this.responseData = responseData;
+	}
+
+	public Response(RequestParam requestPram, int responseCode) {
+		this.requestParam = requestPram;
+		this.responseCode = responseCode;
+		this.responseData = "";
 	}
 }

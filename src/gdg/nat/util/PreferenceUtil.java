@@ -1,9 +1,9 @@
 package gdg.nat.util;
 
+import gdg.nat.ksc.config.KSCApp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import gdg.nat.ksc.config.KSCApp;
 
 public class PreferenceUtil {
 	private static final String TAG = "TrackingPreference";
@@ -30,21 +30,41 @@ public class PreferenceUtil {
 
 	/***** Preference data *****/
 
-	private final String KEY_GCM_ID = "gcm_id";
+	private final String KEY_CATEGORY_VERSION = "category_version";
 
-	public void saveGCMId(String id) {
-		GdgLog.i(TAG, "Save " + KEY_GCM_ID + ": " + id);
-		getEditor().putString(KEY_GCM_ID, id).commit();
+	public void saveCateVersion(int cateVersion) {
+		GdgLog.i(TAG, "Save " + KEY_CATEGORY_VERSION + ": " + cateVersion);
+		getEditor().putInt(KEY_CATEGORY_VERSION, cateVersion).commit();
 	}
 
-	public String getGCMId() {
-		String id = getSharedPreferences().getString(KEY_GCM_ID, "");
-		GdgLog.i(TAG, "Get " + KEY_GCM_ID + ": " + id);
-		return id;
+	public int getCateVersion() {
+		int cateVersion = getSharedPreferences()
+				.getInt(KEY_CATEGORY_VERSION, 0);
+		GdgLog.i(TAG, "Get " + KEY_CATEGORY_VERSION + ": " + cateVersion);
+		return cateVersion;
 	}
 
-	public void clearGCMId() {
-		GdgLog.i(TAG, "Clear " + KEY_GCM_ID);
-		getEditor().remove(KEY_GCM_ID);
+	public void clearCateVersion() {
+		GdgLog.i(TAG, "Clear " + KEY_CATEGORY_VERSION);
+		getEditor().remove(KEY_CATEGORY_VERSION);
+	}
+
+	private final String KEY_CATEGORIES = "categories";
+
+	public void saveCategories(String listCategories) {
+		GdgLog.i(TAG, "Save " + KEY_CATEGORIES + ": " + listCategories);
+		getEditor().putString(KEY_CATEGORIES, listCategories);
+	}
+
+	public String getCategories() {
+		String listCategories = getSharedPreferences().getString(
+				KEY_CATEGORIES, "");
+		GdgLog.i(TAG, "Get " + KEY_CATEGORIES + ": " + listCategories);
+		return listCategories;
+	}
+
+	public void clearCategories() {
+		GdgLog.i(TAG, "Clear " + KEY_CATEGORIES);
+		getEditor().remove(KEY_CATEGORIES);
 	}
 }

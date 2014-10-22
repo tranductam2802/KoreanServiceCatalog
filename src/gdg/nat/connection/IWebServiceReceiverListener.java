@@ -1,6 +1,8 @@
 package gdg.nat.connection;
 
 public interface IWebServiceReceiverListener {
-	public void onRequest(String api, String requestParam);
-	public void onReceiver(Response response);
+	public void onRequest(RequestParam requestParam);
+
+	public void onReceiver(RequestParam requestParam,
+			ResponseParser responseParser);
 }

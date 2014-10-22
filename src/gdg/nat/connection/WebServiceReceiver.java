@@ -1,5 +1,7 @@
 package gdg.nat.connection;
 
+import gdg.nat.ksc.connection.request.GetCategoriesRequest;
+import gdg.nat.ksc.connection.response.GetCategoriesResponse;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +9,6 @@ import android.content.Intent;
 public class WebServiceReceiver extends BroadcastReceiver {
 	public static final String INTENT_WEB_SERVICE = "response";
 	public static final String KEY_STATUS = "status";
-	public static final String KEY_API = "api";
 	public static final String KEY_REQUEST_PARAM = "request_param";
 	public static final String KEY_CODE = "code";
 	public static final String KEY_DATA = "data";
@@ -21,16 +22,26 @@ public class WebServiceReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		if (webServiceReceiverListener != null) {
 			int status = intent.getIntExtra(KEY_STATUS, STATUS_START);
-			String api = intent.getStringExtra(KEY_API);
-			String requestParam = intent.getStringExtra(KEY_REQUEST_PARAM);
+			RequestParam requestParam = (RequestParam) intent
+					.getSerializableExtra(KEY_REQUEST_PARAM);
 			if (status == STATUS_START) {
-				webServiceReceiverListener.onRequest(api, requestParam);
+				/* ===== Send on start request ===== */
+				webServiceReceiverListener.onRequest(requestParam);
 			} else {
+				/* ===== Get response data and show system error here ===== */
 				int code = intent.getIntExtra(KEY_CODE,
 						ResponseCode.CLIENT_ERROR_UNKNOW.getCode());
 				String data = intent.getStringExtra(KEY_DATA);
-				Response response = new Response(api, requestParam, code, data);
-				webServiceReceiverListener.onReceiver(response);
+
+				/* ===== Parse response here ===== */
+				ResponseParser responseParser = null;
+				if (requestParam instanceof GetCategoriesRequest) {
+					GetCategoriesResponse categoriesResponse = new GetCategoriesResponse(
+							data, code);
+					responseParser = categoriesResponse;
+				}
+				webServiceReceiverListener.onReceiver(requestParam,
+						responseParser);
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package gdg.nat.ksc.config;
 
+import android.location.LocationManager;
+
 enum SERVER_TYPE {
 	LOCAL, DEMO, KOREAN
 }
@@ -20,12 +22,22 @@ public class Config {
 
 	/** Type of the server */
 	private static final SERVER_TYPE SERVER = SERVER_TYPE.DEMO;
+	public static final String SERVER_API = "/ksc/api/";
+
+	/** Default provider for location service */
+	public static final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
 
 	/** Request read time-out */
 	public static final int TIMEOUT_READ = 15 * 1000;
 
 	/** Request connection time-out */
 	public static final int TIMEOUT_CONNECT = 15 * 1000;
+
+	/** Delay time using to update the new location */
+	public static final long DELAY_UPDATE_LOCATION = 5 * 1000;
+
+	/** Minimum distance to update new location. Unit meter */
+	public static final int MIN_DISTANCE = 10;
 
 	/** Only tracking application status when debugging application */
 	public static final boolean isTrackingAppStatus() {

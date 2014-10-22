@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="txt_loading" type="id"/>
+    <!-- View -->
+    <item name="app_logo" type="id"/>
+
+    <!-- View group navigation -->
+    <item name="navigation_bar" type="id"/>
+    <item name="navibar_head" type="id"/>
+    <item name="navibar_left_group" type="id"/>
+    <item name="navibar_center_group" type="id"/>
+    <item name="navibar_right_group" type="id"/>
+    <item name="place_holer" type="id"/>
+
+    <!-- Common -->
+    <item name="title" type="id"/>
+    <item name="btn_left" type="id"/>
+    <item name="btn_right" type="id"/>
+    <item name="back" type="id"/>
+    <item name="more" type="id"/>
+    <item name="notification" type="id"/>
+    <item name="search" type="id"/>
+    <item name="search_button" type="id"/>
+    <item name="search_bar" type="id"/>
+    <item name="list" type="id"/>
+    <item name="grid" type="id"/>
+    <item name="ads" type="id"/>
+    <item name="avatar" type="id"/>
+    <item name="name" type="id"/>
+    <item name="address" type="id"/>
+    <item name="phone" type="id"/>
+    <item name="website" type="id"/>
+    <item name="description" type="id"/>
+    <item name="distance" type="id"/>
+    <item name="layout" type="id"/>
+    <item name="sliding_tabs" type="id"/>
+    <item name="viewpager" type="id"/>
 
 </resources>

@@ -20,7 +20,8 @@ enum WebServiceStatus {
 }
 
 /** An AsyncTask task handle request server */
-public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
+public class WebServiceCaller extends
+		AsyncTask<RequestParam, Integer, Response> {
 	private final String TAG = "TrackingWebService";
 	private final String TAG_REQUEST = "TrackingRequest";
 	private final String TAG_RESPONSE = "TrackingResponse";
@@ -59,23 +60,23 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 	}
 
 	@Override
-	protected Response doInBackground(Request... params) {
+	protected Response doInBackground(RequestParam... params) {
 		if (Config.isTrackingAppStatus()) {
 			Log.i(TAG, "Start tracking before doInBackground");
 		}
 		setWebServiceStatus(WebServiceStatus.RUNNING);
 
-		if (params[0] == null || params[0].getRequestParam() == null) {
+		if (params[0] == null) {
 			GdgLog.e(TAG, "RequestParam sending mull");
 			return null;
 		}
 
 		// Get request from parameter
-		Request request = params[0];
+		RequestParam request = params[0];
 		String api = request.getApi();
-		GdgLog.i(TAG_REQUEST, "Send data api: " + api);
-		String requestParam = request.getRequestParam();
-		String subURL = request.getSubURL();
+		String requestParam = request.getParam();
+		GdgLog.i(TAG_REQUEST, "Send data api: " + api + "\n\tSend data: "
+				+ requestParam);
 		EHttpMethod httpMethod = request.getHttpMethod();
 
 		// Prepare connection
@@ -90,12 +91,16 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 		// URL to web service
 		URL url = null;
 		try {
-			// Create URL from configure file
-			if (subURL.length() == 0) {
-				url = new URL(Config.getMainServerURL());
-			} else {
-				url = new URL(Config.getMainServerURL() + subURL);
+			StringBuilder urlPath = new StringBuilder();
+			urlPath.append(Config.getMainServerURL());
+			if (Config.SERVER_API.length() > 0) {
+				urlPath.append(Config.SERVER_API);
 			}
+			if (httpMethod == EHttpMethod.GET
+					|| httpMethod == EHttpMethod.DELETE) {
+				urlPath.append(api).append(requestParam);
+			}
+			url = new URL(urlPath.toString());
 			GdgLog.i(TAG, "Send data url: " + url.toString());
 
 			// Open a connection to server
@@ -109,6 +114,9 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 			switch (httpMethod) {
 				case GET:
 					// Default HTTP method of HttpUrlConnection
+					httpURLConnection.setRequestMethod(EHttpMethod.GET
+							.getMethod());
+					httpURLConnection.setDoOutput(false);
 					break;
 				case POST:
 					// Setup POST HTTP method information
@@ -119,7 +127,6 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 							"en-US");
 					httpURLConnection.setRequestProperty("Content-Type",
 							"application/x-www-form-urlencoded");
-					GdgLog.i(TAG_REQUEST, "Send data: " + requestParam);
 					httpURLConnection.setRequestProperty("Content-Length",
 							Integer.toString(requestParam.getBytes().length));
 					// Parse request parameter to byte before sending
@@ -130,16 +137,6 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 					// Send data to output stream
 					outputStream.write(postDataByte);
 					break;
-				case HEAD:
-					// Setup HEAD HTTP method information
-					httpURLConnection.setRequestMethod(EHttpMethod.HEAD
-							.getMethod());
-					break;
-				case OPTIONS:
-					// Setup OPTIONS HTTP method information
-					httpURLConnection.setRequestMethod(EHttpMethod.OPTIONS
-							.getMethod());
-					break;
 				case PUT:
 					// Setup PUT HTTP method information
 					httpURLConnection.setRequestMethod(EHttpMethod.PUT
@@ -148,11 +145,6 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 				case DELETE:
 					// Setup DELETE HTTP method information
 					httpURLConnection.setRequestMethod(EHttpMethod.DELETE
-							.getMethod());
-					break;
-				case TRACE:
-					// Setup TRACE HTTP method information
-					httpURLConnection.setRequestMethod(EHttpMethod.TRACE
 							.getMethod());
 					break;
 			}
@@ -177,10 +169,10 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 				response.append(inputLine);
 			}
 
-			String outputData = response.toString();
-			GdgLog.i(TAG_RESPONSE, outputData);
-			return new Response(api, requestParam,
-					ResponseCode.SERVER_SUCCESS.getCode(), outputData);
+			String output = response.toString();
+			GdgLog.i(TAG_RESPONSE, output);
+			return new Response(request, ResponseCode.CLIENT_SUCCESS.getCode(),
+					output);
 		} catch (MalformedURLException e) {
 			GdgLog.e(TAG,
 					"MalformedURLException: " + String.valueOf(e.getMessage()));
@@ -221,8 +213,8 @@ public class WebServiceCaller extends AsyncTask<Request, Integer, Response> {
 			if (httpURLConnection != null)
 				httpURLConnection.disconnect();
 		}
-		return new Response(api, requestParam,
-				ResponseCode.CLIENT_ERROR_NO_CONNECTION.getCode(), "");
+		return new Response(request,
+				ResponseCode.CLIENT_ERROR_NO_CONNECTION.getCode());
 	}
 
 	@Override

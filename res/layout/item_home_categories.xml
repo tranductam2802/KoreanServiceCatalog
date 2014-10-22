@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gdg.nat.view.UnScrollableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/grid"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:cacheColorHint="@android:color/transparent"
+    android:gravity="center_horizontal"
+    android:listSelector="@android:color/transparent"
+    android:numColumns="4"
+    android:orientation="vertical"
+    android:stretchMode="columnWidth" />

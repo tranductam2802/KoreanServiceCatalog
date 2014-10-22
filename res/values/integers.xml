@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Config -->
+    <integer name="anim_fragment_duration">@android:integer/config_mediumAnimTime</integer>
+</resources>

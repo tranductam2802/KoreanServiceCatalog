@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <color name="primary">#FFFFFFFF</color>
+    <color name="secondary">#FF000000</color>
+
+    <!-- Navigation Bar -->
+    <color name="bg_navibar">#FFE51C23</color>
+    <color name="txt_navi_view">#FFFFFFFF</color>
+    <color name="txt_navi_button">#FF000000</color>
+
+    <!-- Fragment -->
+    <color name="bg_fragment">#FFFFFFFF</color>
+    <color name="bg_button">#FF000000</color>
+    <color name="txt_text_view">#FF000000</color>
+    <color name="txt_button">#FF000000</color>
+    <color name="txt_hint">#FF000000</color>
+
+    <!-- Service -->
+    <color name="bg_indicator">#FFE51C23</color>
+    <color name="divider_service_list">#FFE2E2E2</color>
+
+</resources>

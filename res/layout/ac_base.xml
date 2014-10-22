@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary" >
+
+    <FrameLayout
+        android:id="@id/place_holer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/navi_bar_height"
+        android:background="@color/bg_fragment" />
+
+    <gdg.nat.navigation.NavigationBar
+        android:id="@id/navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/navi_bar_height" />
+
+</RelativeLayout>
