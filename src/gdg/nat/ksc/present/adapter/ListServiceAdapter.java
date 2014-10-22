@@ -44,8 +44,8 @@ public class ListServiceAdapter extends BaseAdapter {
 
 	public void calculateDistance(double lat1, double lng1) {
 		for (Service services : listService) {
-			double lat2 = services.getLatitude();
-			double lng2 = services.getLongitude();
+			double lat2 = services.getLat();
+			double lng2 = services.getLon();
 			services.setDistance(distanceFrom(lat1, lng1, lat2, lng2));
 		}
 		notifyDataSetChanged();

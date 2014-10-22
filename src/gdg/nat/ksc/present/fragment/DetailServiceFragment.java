@@ -71,10 +71,6 @@ public class DetailServiceFragment extends BaseFragment {
 				getString(R.string.title_service_tab_map), Color.YELLOW,
 				Color.GRAY, MapFragment.newInstance(name, address, 105.852283,
 						21.02785)));
-
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_contact), Color.GREEN,
-				Color.GRAY, new ContactFragment()));
 	}
 
 	@Override

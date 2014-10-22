@@ -5,115 +5,88 @@ import gdg.nat.connection.IWebServiceReceiverListener;
 import gdg.nat.connection.RequestParam;
 import gdg.nat.connection.ResponseParser;
 import gdg.nat.ksc.R;
-import gdg.nat.ksc.config.Config;
 import gdg.nat.ksc.data.Categories;
 import gdg.nat.ksc.data.Category;
-import gdg.nat.ksc.data.Service;
-import gdg.nat.ksc.present.adapter.HomeAdapter;
+import gdg.nat.ksc.present.adapter.CategoriesAdapter;
 import gdg.nat.navigation.INaviDefaultViewListener;
 import gdg.nat.util.ObjectCache;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
-import android.widget.ListView;
+import android.widget.GridView;
 
 public class CategoriesFragment extends BaseFragment implements
-		INaviDefaultViewListener, LocationListener, IWebServiceReceiverListener {
+		INaviDefaultViewListener, IWebServiceReceiverListener {
 	private final String TAG = "TrackingCategoriesFragment";
 
-	private HomeAdapter adapter;
-	private ListView listView;
+	private final String INTENT_NAME = "name";
+	private final String INTENT_CATE_ID = "cate_id";
+
+	private String screenName = "";
+	private String cateId = "";
+
+	private GridView gridView;
 	private FrameLayout frameAds;
+
+	private CategoriesAdapter adapter;
 
 	public static CategoriesFragment newInstance() {
 		CategoriesFragment fragment = new CategoriesFragment();
 		return fragment;
 	}
 
+	public static CategoriesFragment newInstance(String name, String id) {
+		CategoriesFragment fragment = new CategoriesFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(fragment.INTENT_NAME, name);
+		bundle.putString(fragment.INTENT_CATE_ID, id);
+		fragment.setArguments(bundle);
+		return fragment;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fg_list, container, false);
+		View view = inflater.inflate(R.layout.fg_categories, container, false);
 		return view;
 	}
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		listView = (ListView) view.findViewById(R.id.list);
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			if (bundle.containsKey(INTENT_NAME)) {
+				screenName = bundle.getString(INTENT_NAME);
+			}
+			if (bundle.containsKey(INTENT_CATE_ID)) {
+				cateId = bundle.getString(INTENT_CATE_ID);
+			}
+		}
+
+		gridView = (GridView) view.findViewById(R.id.grid);
 		frameAds = (FrameLayout) view.findViewById(R.id.ads);
+		frameAds.setVisibility(View.GONE);
 
 		if (adapter == null) {
-			adapter = new HomeAdapter(getActivity());
+			adapter = new CategoriesAdapter(getActivity());
+		}
+
+		gridView.setAdapter(adapter);
+
+		if (screenName.length() > 0) {
+			getNavigationBar().setTitle(screenName);
+		}
+
+		if (cateId.length() == 0) {
 			loadListCategories();
-
-			List<Service> list = new ArrayList<Service>();
-			list.add(new Service(
-					"",
-					"Minh Ngoc Nguyen",
-					"",
-					"Quan an ngon o dau do cu bia ra nhin cho no dai dai de con test duoc cai ten dai chu neu khong thi cai ten dai kho ma test cho duoc",
-					"", 2));
-			list.add(new Service(
-					"",
-					"Minh Ngoc Nguyen",
-					"",
-					"Quan an ngon o dau do cu bia ra nhin cho no dai dai de con test duoc cai ten dai chu neu khong thi cai ten dai kho ma test cho duoc",
-					"", 1));
-			list.add(new Service(
-					"",
-					"Minh Ngoc Nguyen",
-					"",
-					"Quan an ngon o dau do cu bia ra nhin cho no dai dai de con test duoc cai ten dai chu neu khong thi cai ten dai kho ma test cho duoc",
-					"", 0));
-
-			adapter.setListServices(list);
 		}
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				if (position == 0) {
-					return;
-				}
-				Service service = adapter.getItem(position);
-				String serviceId = service.getId();
-				String name = service.getName();
-				DetailServiceFragment fragment = DetailServiceFragment.newInstance(
-						serviceId, name);
-				getNavigationManager().showPage(fragment);
-			}
-		});
-		frameAds.setVisibility(View.GONE);
-		updateLocation();
-	}
-
-	private void updateLocation() {
-		LocationManager lm = (LocationManager) getActivity().getSystemService(
-				Context.LOCATION_SERVICE);
-		Location location = lm.getLastKnownLocation(Config.LOCATION_PROVIDER);
-		if (location != null) {
-			double longitude = location.getLongitude();
-			double latitude = location.getLatitude();
-			adapter.calculateDistance(latitude, longitude);
-		}
-
-		lm.requestLocationUpdates(Config.LOCATION_PROVIDER,
-				Config.DELAY_UPDATE_LOCATION, Config.MIN_DISTANCE, this);
 	}
 
 	private void loadListCategories() {
@@ -143,37 +116,16 @@ public class CategoriesFragment extends BaseFragment implements
 
 	@Override
 	public int getTitleResource() {
-		return R.string.app_title;
+		return R.string.title_home_screen;
 	}
 
 	@Override
 	public void onRequest(RequestParam requestParam) {
-		// TODO Auto-generated method stub
+		// TODO TamTD - request server
 	}
 
 	@Override
 	public void onReceiver(RequestParam requestParam,
 			ResponseParser responseParser) {
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		if (location != null && adapter != null) {
-			double longitude = location.getLongitude();
-			double latitude = location.getLatitude();
-			adapter.calculateDistance(latitude, longitude);
-		}
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
 	}
 }

@@ -19,16 +19,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CategoriesHomeAdapter extends BaseAdapter {
+public class CategoriesAdapter extends BaseAdapter {
 	private Context context;
 	private List<Category> listCate;
 
-	public void addList(List<Category> listCate) {
+	public void setListCategories(List<Category> listCate) {
 		this.listCate = listCate;
 		notifyDataSetChanged();
 	}
 
-	public CategoriesHomeAdapter(Context context) {
+	public CategoriesAdapter(Context context) {
 		this.context = context;
 		this.listCate = new ArrayList<Category>();
 	}

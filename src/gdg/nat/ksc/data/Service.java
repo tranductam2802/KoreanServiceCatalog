@@ -7,107 +7,95 @@ public class Service {
 
 	private String id;
 	private String name;
+	private String address;
+	private String website;
+	private String phone;
 	private String description;
-	private String categoryId;
-	private String avatarId;
+	private String promotion;
 	private int rate;
-	private double longitude;
-	private double latitude;
+	private double lon;
+	private double lat;
 	private double distance;
+	private boolean isPromotion;
 
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getAddress() {
+		return address;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public String getPhone() {
+		return phone;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public String getAvatarId() {
-		return avatarId;
-	}
-
-	public void setAvatarId(String avatarId) {
-		this.avatarId = avatarId;
+	public String getPromotion() {
+		return promotion;
 	}
 
 	public int getRate() {
 		return rate;
 	}
 
-	public void setRate(int rate) {
-		this.rate = rate;
+	public double getLon() {
+		return lon;
 	}
 
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getDistance() {
-		return distance;
+	public double getLat() {
+		return lat;
 	}
 
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
 
-	public Service(String id, String name, String avatarId, String description,
-			String categoryId, int rate, double longitude, double latitude) {
-		this.id = id;
-		this.name = name;
-		this.avatarId = avatarId;
-		this.description = description;
-		this.categoryId = categoryId;
-		this.rate = rate;
-		this.longitude = longitude;
-		this.latitude = latitude;
+	public double getDistance() {
+		return distance;
 	}
 
-	public Service(String id, String name, String avatarId, String description,
-			String categoryId, int rate) {
+	public boolean isPromotion() {
+		return isPromotion;
+	}
+
+	public Service(String id, String name, String address, int rate,
+			double lon, double lat, boolean isPromotion) {
 		this.id = id;
 		this.name = name;
-		this.avatarId = avatarId;
-		this.description = description;
-		this.categoryId = categoryId;
+		this.address = address;
 		this.rate = rate;
-		this.longitude = 105.852283;
-		this.latitude = 21.02785;
+		this.lon = 105.852283;
+		this.lat = 21.02785;
+		this.isPromotion = isPromotion;
+		this.distance = 0;
+	}
+
+	public Service(String id, String name, String address, String website,
+			String phone, String description, String promotion, int rate,
+			double lon, double lat, boolean isPromotion) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.website = website;
+		this.phone = phone;
+		this.description = description;
+		this.promotion = promotion;
+		this.rate = rate;
+		this.lon = 105.852283;
+		this.lat = 21.02785;
+		this.isPromotion = isPromotion;
+		this.distance = 0;
 	}
 }

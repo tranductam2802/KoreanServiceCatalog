@@ -18,7 +18,7 @@
     <string name="title_home_screen">@string/app_title</string>
     <string name="title_new_service_screen">New services</string>
     <string name="title_service_tab_description">Description</string>
-    <string name="title_service_tab_image">Promotion</string>
+    <string name="title_service_tab_promotion">Promotion</string>
     <string name="title_service_tab_map">Map</string>
 
     <!-- Service tab -->
