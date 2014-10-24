@@ -60,12 +60,11 @@ public class DetailServiceFragment extends BaseFragment {
 
 		mTabs.add(new SamplePagerItem(
 				getString(R.string.title_service_tab_description), Color.BLUE,
-				Color.GRAY, DescriptionFragment.newInstance(name, address,
-						"+84 511 393 8888", "http://tranductam.com")));
+				Color.GRAY, WebFragment.newInstance("http://google.com")));
 
 		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_image), Color.RED,
-				Color.GRAY, new ImageFragment()));
+				getString(R.string.title_service_tab_promotion), Color.RED,
+				Color.GRAY, WebFragment.newInstance("http://facebook.com")));
 
 		mTabs.add(new SamplePagerItem(
 				getString(R.string.title_service_tab_map), Color.YELLOW,

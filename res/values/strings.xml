@@ -9,6 +9,7 @@
     <string name="unit_km">%1$.2fkm</string>
     <string name="unit_mile">%1$.2fsmile</string>
     <string name="unit_near">near by</string>
+    <string name="unit_far">far from</string>
 
     <!-- Navigation -->
     <string name="btn_search">Search</string>

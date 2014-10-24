@@ -109,8 +109,7 @@ public class CategoriesFragment extends BaseFragment implements
 	public void onSearch(String keyword) {
 		if (keyword == null || keyword.length() <= 0)
 			return;
-		ListServiceFragment fragment = ListServiceFragment.newInstance(keyword,
-				"");
+		ServiceFragment fragment = ServiceFragment.newInstance("", keyword);
 		getNavigationManager().showPage(fragment);
 	}
 

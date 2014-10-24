@@ -22,6 +22,7 @@ public class ServiceFragment extends BaseFragment implements
 
 	private final String INTENT_CATE_NAME = "name";
 	private final String INTENT_CATE_ID = "cate_id";
+	private final String INTENT_KEYWORD = "keyword";
 	private final String INTENT_CITY = "city";
 
 	private ListView mList;
@@ -34,7 +35,17 @@ public class ServiceFragment extends BaseFragment implements
 
 	private String screenName = "";
 	private String cateId = "";
+	private String keyword = "";
 	private int city = CITY_HA_NOI;
+
+	public static ServiceFragment newInstance(String cate_id, String keyword) {
+		ServiceFragment fragment = new ServiceFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(fragment.INTENT_CATE_ID, cate_id);
+		bundle.putString(fragment.INTENT_KEYWORD, keyword);
+		fragment.setArguments(bundle);
+		return fragment;
+	}
 
 	public static ServiceFragment newInstance(String cate_id, String cate_name,
 			int city) {
@@ -67,6 +78,9 @@ public class ServiceFragment extends BaseFragment implements
 			}
 			if (bundle.containsKey(INTENT_CATE_ID)) {
 				cateId = bundle.getString(INTENT_CATE_ID);
+			}
+			if (bundle.containsKey(INTENT_KEYWORD)) {
+				keyword = bundle.getString(INTENT_KEYWORD);
 			}
 			if (bundle.containsKey(INTENT_CITY)) {
 				city = bundle.getInt(INTENT_CITY);

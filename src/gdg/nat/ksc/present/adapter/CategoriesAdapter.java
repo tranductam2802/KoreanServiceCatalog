@@ -3,8 +3,8 @@ package gdg.nat.ksc.present.adapter;
 import gdg.nat.ksc.R;
 import gdg.nat.ksc.data.Category;
 import gdg.nat.ksc.present.activity.MainActivity;
+import gdg.nat.ksc.present.fragment.CategoriesFragment;
 import gdg.nat.ksc.present.fragment.ListServiceFragment;
-import gdg.nat.ksc.present.fragment.SubcategoriesFragment;
 import gdg.nat.ksc.service.GetImage;
 
 import java.util.ArrayList;
@@ -78,8 +78,8 @@ public class CategoriesAdapter extends BaseAdapter {
 					Category category = getItem(position);
 					List<Category> categories = category.getSubCategories();
 					if (categories != null && categories.size() > 0) {
-						SubcategoriesFragment fragment = SubcategoriesFragment
-								.newInstance(position % 2 == 0,
+						CategoriesFragment fragment = CategoriesFragment
+								.newInstance(category.getName(),
 										category.getId());
 						((MainActivity) context).getNavigationManager()
 								.showPage(fragment);
