@@ -62,19 +62,22 @@ public class GetCategoriesResponse extends ResponseParser {
 					int subCateListLength = subCateList.length();
 					if (subCateList != null) {
 						for (int j = 0; j < subCateListLength; j++) {
+							JSONObject jsonObjectSubitem = subCateList
+									.getJSONObject(j);
 							String subId = "";
-							if (jsonObjectItem.has(KEY_ID)) {
-								subId = jsonObjectItem.getString(KEY_ID);
+							if (jsonObjectSubitem.has(KEY_ID)) {
+								subId = jsonObjectSubitem.getString(KEY_ID);
 							}
 
 							String subName = "";
-							if (jsonObjectItem.has(KEY_NAME)) {
-								subName = jsonObjectItem.getString(KEY_NAME);
+							if (jsonObjectSubitem.has(KEY_NAME)) {
+								subName = jsonObjectSubitem.getString(KEY_NAME);
 							}
 
 							String subAva = "";
-							if (jsonObjectItem.has(KEY_IMG_ID)) {
-								subAva = jsonObjectItem.getString(KEY_IMG_ID);
+							if (jsonObjectSubitem.has(KEY_IMG_ID)) {
+								subAva = jsonObjectSubitem
+										.getString(KEY_IMG_ID);
 							}
 
 							Category subCategory = new Category(subId, subName,

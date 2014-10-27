@@ -11,6 +11,7 @@ import gdg.nat.ksc.present.adapter.CategoriesAdapter;
 import gdg.nat.navigation.INaviDefaultViewListener;
 import gdg.nat.util.ObjectCache;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -86,6 +87,8 @@ public class CategoriesFragment extends BaseFragment implements
 
 		if (cateId.length() == 0) {
 			loadListCategories();
+		} else {
+			loadListCategories(cateId);
 		}
 	}
 
@@ -93,6 +96,18 @@ public class CategoriesFragment extends BaseFragment implements
 		Categories categories = ObjectCache.getInstance().getCategories();
 		List<Category> list = categories.getListCategories();
 		adapter.setListCategories(list);
+	}
+
+	private void loadListCategories(String cateId) {
+		Categories categories = ObjectCache.getInstance().getCategories();
+		List<Category> list = categories.getListCategories();
+		List<Category> listSubCategories = new ArrayList<Category>();
+		for (Category cateItem : list) {
+			if (cateItem.getId().equals(cateId)) {
+				listSubCategories.addAll(cateItem.getSubCategories());
+			}
+		}
+		adapter.setListCategories(listSubCategories);
 	}
 
 	@Override
