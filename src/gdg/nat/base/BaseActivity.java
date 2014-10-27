@@ -1,6 +1,7 @@
 package gdg.nat.base;
 
 import gdg.nat.connection.IWebServiceReceiverListener;
+import gdg.nat.connection.RequestParam;
 import gdg.nat.connection.WebServiceManager;
 import gdg.nat.connection.WebServiceReceiver;
 import gdg.nat.ksc.R;
@@ -22,7 +23,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity{
 	private final String TAG = "TrackingBaseActivity";
 	private WebServiceManager webServiceManager = WebServiceManager
 			.getInstance();
@@ -30,22 +31,22 @@ public abstract class BaseActivity extends FragmentActivity {
 	private NavigationBar navibar;
 	protected FrameLayout placeholder;
 	private NavigationManager navigationManager;
-
+	
 	private boolean isNavigatable = false;
-
+	
 	public abstract void dismisAllDialog();
-
-	protected WebServiceManager getWebServiceManager() {
+	
+	protected WebServiceManager getWebServiceManager(){
 		return webServiceManager;
 	}
-
-	protected WebServiceReceiver getWebServiceReceiver() {
+	
+	protected WebServiceReceiver getWebServiceReceiver(){
 		return webServiceReceiver;
 	}
-
+	
 	@Override
-	protected void onCreate(Bundle arg0) {
-		if (Config.isTrackingAppStatus()) {
+	protected void onCreate(Bundle arg0){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onCreate:\n" + "\tBundle: "
 					+ arg0 + "\n----------");
 		}
@@ -53,65 +54,74 @@ public abstract class BaseActivity extends FragmentActivity {
 		setContentView(R.layout.ac_base);
 		isNavigatable = true;
 		setupNavigation(false, false);
-		if (this instanceof IWebServiceReceiverListener)
+		if(this instanceof IWebServiceReceiverListener)
 			webServiceReceiver
 					.setWebServiceReceiverListener((IWebServiceReceiverListener) this);
 	}
-
-	public NavigationBar getNavigationBar() {
+	
+	public NavigationBar getNavigationBar(){
 		return navibar;
 	}
-
-	public NavigationManager getNavigationManager() {
+	
+	public NavigationManager getNavigationManager(){
 		return navigationManager;
 	}
-
-	protected void setupNavigation(boolean isShow, boolean isPlaceHolder) {
+	
+	protected void setupNavigation(boolean isShow, boolean isPlaceHolder){
 		navibar = (NavigationBar) findViewById(R.id.navigation_bar);
 		placeholder = (FrameLayout) findViewById(R.id.place_holer);
-		if (navibar == null || placeholder == null)
-			return;
-		if (isShow) {
+		if(navibar == null || placeholder == null) return;
+		if(isShow){
 			navibar.setVisibility(View.VISIBLE);
 			navibar.init(this);
 			LayoutParams params = ((LayoutParams) placeholder.getLayoutParams());
-			if (isPlaceHolder) {
+			if(isPlaceHolder){
 				params.topMargin = getResources().getDimensionPixelSize(
 						R.dimen.navi_bar_height);
-			} else {
+			}else{
 				params.topMargin = 0;
 			}
 			placeholder.setLayoutParams(params);
-		} else {
+		}else{
 			navibar.setVisibility(View.GONE);
 			LayoutParams params = ((LayoutParams) placeholder.getLayoutParams());
 			params.topMargin = 0;
 			placeholder.setLayoutParams(params);
 		}
-
+		
 		navigationManager = new NavigationManager(this, placeholder.getId());
 	}
-
-	private void terminateNavigation() {
+	
+	protected void startRequest(RequestParam requestParam){
+		WebServiceManager manager = getWebServiceManager();
+		manager.startRequestServer(requestParam);
+	}
+	
+	protected void restartRequest(RequestParam requestParam){
+		WebServiceManager manager = getWebServiceManager();
+		manager.restartRequestServer(requestParam);
+	}
+	
+	private void terminateNavigation(){
 		navigationManager.terminate();
 	}
-
-	public boolean isNavigatable() {
+	
+	public boolean isNavigatable(){
 		return isNavigatable;
 	}
-
+	
 	@Override
-	protected void onStart() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onStart(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onStart" + "\n----------");
 		}
 		super.onStart();
 		isNavigatable = true;
 	}
-
+	
 	@Override
-	protected void onResume() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onResume(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onResume" + "\n----------");
 		}
 		super.onResume();
@@ -119,151 +129,149 @@ public abstract class BaseActivity extends FragmentActivity {
 				webServiceReceiver,
 				new IntentFilter(WebServiceReceiver.INTENT_WEB_SERVICE));
 	}
-
+	
 	@Override
-	protected void onPause() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onPause(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onPause" + "\n----------");
 		}
 		super.onPause();
 		dismisAllDialog();
 	}
-
+	
 	@Override
-	protected void onStop() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onStop(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onStop" + "\n----------");
 		}
 		super.onStop();
 		dismisAllDialog();
 	}
-
+	
 	@Override
-	protected void onDestroy() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onDestroy(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onDestroy" + "\n----------");
 		}
 		super.onDestroy();
-		if (navibar != null)
-			navibar.terminate();
+		if(navibar != null) navibar.terminate();
 		terminateNavigation();
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(
 				webServiceReceiver);
 		dismisAllDialog();
 	}
-
+	
 	@Override
-	protected void onRestart() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onRestart(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onRestart" + "\n----------");
 		}
 		super.onRestart();
 	}
-
+	
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		if (Config.isTrackingAppStatus()) {
+	protected void onSaveInstanceState(Bundle outState){
+		if(Config.isTrackingAppStatus()){
 			Random random = new Random();
-			if (random.nextInt() % 2 == 0)
-				outState.putString(TAG, TAG);
+			if(random.nextInt() % 2 == 0) outState.putString(TAG, TAG);
 			Log.i(TAG, "Start tracking before onSaveInstanceState:\n"
 					+ "\tBundle: " + outState + "\n----------");
 		}
 		super.onSaveInstanceState(outState);
 		isNavigatable = false;
 	}
-
+	
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		if (Config.isTrackingAppStatus()) {
+	protected void onRestoreInstanceState(Bundle savedInstanceState){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking after onRestoreInstanceState:\n"
 					+ "\tBundle: " + savedInstanceState + "\n----------");
 		}
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-
+	
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		if (Config.isTrackingAppStatus()) {
+	protected void onActivityResult(int arg0, int arg1, Intent arg2){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onActivityResult:\n"
 					+ "\tRequest code: " + arg0 + "\n\tResult code: " + arg1
 					+ "\n\tIntent: " + arg2 + "\n----------");
 		}
 		super.onActivityResult(arg0, arg1, arg2);
 	}
-
+	
 	@Override
-	public void onAttachedToWindow() {
-		if (Config.isTrackingAppStatus()) {
+	public void onAttachedToWindow(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onAttacherToWindow"
 					+ "\n----------");
 		}
 		super.onAttachedToWindow();
 	}
-
+	
 	@Override
-	public void onAttachFragment(Fragment fragment) {
-		if (Config.isTrackingAppStatus()) {
+	public void onAttachFragment(Fragment fragment){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onAttachFragment\n\t" + fragment
 					+ "\n----------");
 		}
 		super.onAttachFragment(fragment);
 	}
-
+	
 	@Override
-	protected void onResumeFragments() {
-		if (Config.isTrackingAppStatus()) {
+	protected void onResumeFragments(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking after onResumeFragment" + "\n----------");
 		}
 		super.onResumeFragments();
 		isNavigatable = true;
 	}
-
+	
 	@Override
-	public void onBackPressed() {
-		if (Config.isTrackingAppStatus()) {
+	public void onBackPressed(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before obBackPressd" + "\n----------");
 		}
-		if (!navigationManager.goBack()) {
+		if(!navigationManager.goBack()){
 			super.onBackPressed();
 		}
 	}
-
+	
 	@Override
-	public void onDetachedFromWindow() {
-		if (Config.isTrackingAppStatus()) {
+	public void onDetachedFromWindow(){
+		if(Config.isTrackingAppStatus()){
 			Log.i(TAG, "Start tracking before onDetachedFromWindow"
 					+ "\n----------");
 		}
 		super.onDetachedFromWindow();
 	}
-
-	protected void showPage(BaseFragment fragment) {
-		if (navigationManager.showPage(fragment)) {
-			if (Config.IS_TRACKING_USER) {
+	
+	protected void showPage(BaseFragment fragment){
+		if(navigationManager.showPage(fragment)){
+			if(Config.IS_TRACKING_USER){
 				Log.i(TAG, "Navigate to: " + fragment.toString());
 			}
-		} else {
+		}else{
 			GdgLog.e(TAG, "Can't navigate to: " + fragment.toString());
 		}
 	}
-
-	protected void showPage(BaseFragment fragment, boolean isAnimation) {
-		if (navigationManager.showPage(fragment, isAnimation)) {
-			if (Config.IS_TRACKING_USER) {
+	
+	protected void showPage(BaseFragment fragment, boolean isAnimation){
+		if(navigationManager.showPage(fragment, isAnimation)){
+			if(Config.IS_TRACKING_USER){
 				Log.i(TAG, "Navigate to: " + fragment.toString());
 			}
-		} else {
+		}else{
 			GdgLog.e(TAG, "Can't navigate to: " + fragment.toString());
 		}
 	}
-
-	protected void goBack() {
-		if (navigationManager.goBack()) {
-			if (Config.IS_TRACKING_USER) {
+	
+	protected void goBack(){
+		if(navigationManager.goBack()){
+			if(Config.IS_TRACKING_USER){
 				Log.i(TAG, "Go back");
 			}
-		} else {
+		}else{
 			GdgLog.e(TAG, "Can't goback");
 		}
 	}

@@ -22,20 +22,19 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ListServiceFragment extends BaseFragment implements
-		INaviDefaultViewListener {
+		INaviDefaultViewListener{
 	private final String TAG = "TrackingSearch";
-
+	
 	private final String INTENT_KEYWORD = "keyword";
 	private final String INTENT_CATE_ID = "cate_id";
-
+	
 	private String keyword = "";
 	private String cateID = "";
-
+	
 	private ListServiceAdapter adapter;
 	private ListView listView;
-	private FrameLayout frameAds;
-
-	public static ListServiceFragment newInstance(String keyword, String cateId) {
+	
+	public static ListServiceFragment newInstance(String keyword, String cateId){
 		ListServiceFragment fragment = new ListServiceFragment();
 		Bundle bundle = new Bundle();
 		bundle.putString(fragment.INTENT_KEYWORD, keyword);
@@ -43,58 +42,56 @@ public class ListServiceFragment extends BaseFragment implements
 		fragment.setArguments(bundle);
 		return fragment;
 	}
-
+	
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(Bundle outState){
 		outState.putString(INTENT_KEYWORD, keyword);
 		outState.putString(INTENT_CATE_ID, cateID);
 		super.onSaveInstanceState(outState);
 	}
-
-	private void setKeyword(String keyword) {
+	
+	private void setKeyword(String keyword){
 		this.keyword = keyword;
 		getNavigationBar().setTitle(keyword);
 	}
-
+	
 	@Override
-	public void onStart() {
+	public void onStart(){
 		super.onStart();
-		if (keyword.length() > 0) {
+		if(keyword.length() > 0){
 			getNavigationBar().setTitle(keyword);
-		} else {
-
+		}else{
+			
 		}
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
-			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 		return inflater.inflate(R.layout.fg_service, container, false);
 	}
-
+	
 	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-		if (savedInstanceState == null) {
+		if(savedInstanceState == null){
 			Bundle bundle = getArguments();
 			setKeyword(bundle.getString(INTENT_KEYWORD));
 			cateID = bundle.getString(INTENT_CATE_ID);
-		} else {
+		}else{
 			setKeyword(savedInstanceState.getString(INTENT_KEYWORD));
 			cateID = savedInstanceState.getString(INTENT_CATE_ID);
 		}
-
+		
 		Bundle bundle = getArguments();
-
-		if (bundle != null) {
+		
+		if(bundle != null){
 			setKeyword(bundle.getString(INTENT_KEYWORD));
 			cateID = bundle.getString(INTENT_CATE_ID);
 			listView = (ListView) view.findViewById(R.id.list);
-			frameAds = (FrameLayout) view.findViewById(R.id.ads);
-			frameAds.setVisibility(View.GONE);
-			if (adapter == null) {
+			if(adapter == null){
 				adapter = new ListServiceAdapter(getActivity());
-
+				
 				List<Service> list = new ArrayList<Service>();
 				list.add(new Service("1", "1-1", "Ha noi chu o dau",
 						Service.RATE_MEDIUM, (double) 0, (double) 0, true));
@@ -136,14 +133,14 @@ public class ListServiceFragment extends BaseFragment implements
 						Service.RATE_HIGH, (double) 0, (double) 0, true));
 				list.add(new Service("20", "20", "Ha noi chu o dau",
 						Service.RATE_MEDIUM, (double) 0, (double) 0, true));
-
+				
 				adapter.setListServices(list);
 			}
 			listView.setAdapter(adapter);
-			listView.setOnItemClickListener(new OnItemClickListener() {
+			listView.setOnItemClickListener(new OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
+						int position, long id){
 					Service service = adapter.getItem(position);
 					String serviceId = service.getId();
 					String name = service.getName();
@@ -154,28 +151,27 @@ public class ListServiceFragment extends BaseFragment implements
 			});
 		}
 	}
-
+	
 	@Override
-	public String getFragmentTag() {
+	public String getFragmentTag(){
 		return TAG;
 	}
-
+	
 	@Override
-	public String getTitle() {
+	public String getTitle(){
 		Categories categories = ObjectCache.getInstance().getCategories();
-		if (categories.getCategories(cateID) != null) {
-			return categories.getCategories(cateID).getName();
-		}
+		if(categories.getCategories(cateID) != null){ return categories
+				.getCategories(cateID).getName(); }
 		return super.getTitle();
 	}
-
+	
 	@Override
-	public void onGoBack() {
+	public void onGoBack(){
 		getNavigationManager().goBack();
 	}
-
+	
 	@Override
-	public void onSearch(String keyword) {
+	public void onSearch(String keyword){
 		// TODO request search
 	}
 }
