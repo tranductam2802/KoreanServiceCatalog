@@ -1,6 +1,7 @@
 package gdg.nat.base;
 
 import gdg.nat.connection.IWebServiceReceiverListener;
+import gdg.nat.connection.RequestParam;
 import gdg.nat.connection.WebServiceManager;
 import gdg.nat.connection.WebServiceReceiver;
 import gdg.nat.ksc.config.Config;
@@ -60,6 +61,16 @@ public abstract class BaseFragment extends Fragment {
 
 	public NavigationBar getNavigationBar() {
 		return ((BaseActivity) getActivity()).getNavigationBar();
+	}
+
+	protected void startRequest(RequestParam requestParam) {
+		WebServiceManager manager = getWebServiceManager();
+		manager.startRequestServer(requestParam);
+	}
+
+	protected void restartRequest(RequestParam requestParam) {
+		WebServiceManager manager = getWebServiceManager();
+		manager.restartRequestServer(requestParam);
 	}
 
 	public abstract String getFragmentTag();

@@ -9,7 +9,7 @@ public abstract class ResponseParser {
 	private final String TAG = "TrackingResponseParser";
 	public final String KEY_CODE = "code";
 	public final String KEY_DATA = "data";
-	private int code = ResponseCode.CLIENT_ERROR_UNKNOW.getCode();
+	private int code = ResponseCode.CLIENT_ERROR_UNKNOW;
 
 	public void setCode(int code) {
 		this.code = code;
@@ -29,7 +29,7 @@ public abstract class ResponseParser {
 			parseResponse(jsonObject);
 		} catch (JSONException e) {
 			GdgLog.e(TAG, String.valueOf(e.getMessage()));
-			setCode(ResponseCode.CLIENT_ERROR_PARSE_JSON.getCode());
+			setCode(ResponseCode.CLIENT_ERROR_PARSE_JSON);
 			e.printStackTrace();
 		}
 	}

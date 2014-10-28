@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +41,11 @@ public class ListServiceAdapter extends BaseAdapter {
 		if (listService == null)
 			return;
 		this.listService = listService;
+		notifyDataSetChanged();
+	}
+
+	public void clear() {
+		this.listService.clear();
 		notifyDataSetChanged();
 	}
 
@@ -106,31 +113,48 @@ public class ListServiceAdapter extends BaseAdapter {
 			holder.address = (TextView) convertView.findViewById(R.id.address);
 			holder.distance = (TextView) convertView
 					.findViewById(R.id.distance);
+			holder.promotion = (ImageView) convertView
+					.findViewById(R.id.promotion);
+			holder.btnSubmit = (Button) convertView.findViewById(R.id.submit);
 			convertView.setTag(holder);
 		} else {
 			holder = (ServiceHolder) convertView.getTag();
 		}
 
-		// TODO: Show view
 		Service services = getItem(position);
 
 		// Set service name
 		holder.name.setText(services.getName());
+
 		// Set service description
-		holder.address.setText(services.getDescription());
+		StringBuilder address = new StringBuilder();
+		address.append(services.getAddress()).append("\n")
+				.append(services.getWebsite()).append("\n")
+				.append(services.getPhone());
+		holder.address.setText(address.toString());
+
 		// Set distance from service
 		if (services.getDistance() > 1) {
-			holder.distance
-					.setText(String.format(context.getString(R.string.unit_km),
-							services.getDistance()));
+			String format = context.getString(R.string.unit_km);
+			Double distance = services.getDistance();
+			holder.distance.setText(String.format(format, distance));
 		} else {
 			holder.distance.setText(context.getString(R.string.unit_near));
 		}
 
+		// Set icon HOT
 		if (services.getRate() == Service.RATE_HIGH) {
 			holder.name.setCompoundDrawablesWithIntrinsicBounds(0, 0,
 					R.drawable.ic_hot, 0);
 		}
+
+		// Check promotion
+		if (services.isPromotion()) {
+			holder.promotion.setVisibility(View.VISIBLE);
+		} else {
+			holder.promotion.setVisibility(View.GONE);
+		}
+		holder.btnSubmit.setVisibility(View.GONE);
 
 		return convertView;
 	}
@@ -140,5 +164,7 @@ public class ListServiceAdapter extends BaseAdapter {
 		public TextView name;
 		public TextView address;
 		public TextView distance;
+		public ImageView promotion;
+		public Button btnSubmit;
 	}
 }

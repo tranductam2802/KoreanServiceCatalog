@@ -210,7 +210,7 @@ public class WebServiceManager implements IWebServiceListener {
 	@Override
 	public void onFinishRequest(Response response) {
 		// Add response when success
-		if (response.getResponseCode() != ResponseCode.SERVER_SUCCESS.getCode()) {
+		if (response.getResponseCode() != ResponseCode.SERVER_SUCCESS) {
 			removeExitedRequest(response.getRequestParam());
 			removeOldResponse(response.getRequestParam());
 			addResponse(response);

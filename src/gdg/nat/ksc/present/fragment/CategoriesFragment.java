@@ -29,8 +29,10 @@ public class CategoriesFragment extends BaseFragment implements
 	private final String INTENT_NAME = "name";
 	private final String INTENT_CATE_ID = "cate_id";
 
+	private static final String DEFAULT_CATEGORIES = "0";
+
 	private String screenName = "";
-	private String cateId = "";
+	private String cateId = DEFAULT_CATEGORIES;
 
 	private GridView gridView;
 	private FrameLayout frameAds;
@@ -85,7 +87,7 @@ public class CategoriesFragment extends BaseFragment implements
 			getNavigationBar().setTitle(screenName);
 		}
 
-		if (cateId.length() == 0) {
+		if (cateId.equals(DEFAULT_CATEGORIES)) {
 			loadListCategories();
 		} else {
 			loadListCategories(cateId);
@@ -124,7 +126,8 @@ public class CategoriesFragment extends BaseFragment implements
 	public void onSearch(String keyword) {
 		if (keyword == null || keyword.length() <= 0)
 			return;
-		ServiceFragment fragment = ServiceFragment.newInstance("", keyword);
+		ListServiceFragment fragment = ListServiceFragment.newInstance(keyword,
+				cateId);
 		getNavigationManager().showPage(fragment);
 	}
 

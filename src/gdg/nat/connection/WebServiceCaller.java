@@ -171,8 +171,7 @@ public class WebServiceCaller extends
 
 			String output = response.toString();
 			GdgLog.i(TAG_RESPONSE, output);
-			return new Response(request, ResponseCode.CLIENT_SUCCESS.getCode(),
-					output);
+			return new Response(request, ResponseCode.CLIENT_SUCCESS, output);
 		} catch (MalformedURLException e) {
 			GdgLog.e(TAG,
 					"MalformedURLException: " + String.valueOf(e.getMessage()));
@@ -213,8 +212,7 @@ public class WebServiceCaller extends
 			if (httpURLConnection != null)
 				httpURLConnection.disconnect();
 		}
-		return new Response(request,
-				ResponseCode.CLIENT_ERROR_NO_CONNECTION.getCode());
+		return new Response(request, ResponseCode.CLIENT_ERROR_NO_CONNECTION);
 	}
 
 	@Override

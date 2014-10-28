@@ -1,6 +1,7 @@
 package gdg.nat.ksc.service;
 
 import gdg.nat.ksc.config.Config;
+import gdg.nat.util.StorageUtil;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -38,21 +39,18 @@ public class DownloadIconService extends IntentService {
 			// download the file
 			InputStream input = new BufferedInputStream(
 					connection.getInputStream());
-			OutputStream output = new FileOutputStream(
-					"/sdcard/BarcodeScanner-debug.apk");
+			OutputStream output = new FileOutputStream(StorageUtil.getIconZip());
 
 			byte data[] = new byte[1024];
 			long total = 0;
 			int count;
 			while ((count = input.read(data)) != -1) {
 				total += count;
-				// publishing the progress....
 				Bundle resultData = new Bundle();
 				resultData.putInt("progress", (int) (total * 100 / fileLength));
 				receiver.send(UPDATE_PROGRESS, resultData);
 				output.write(data, 0, count);
 			}
-
 			output.flush();
 			output.close();
 			input.close();

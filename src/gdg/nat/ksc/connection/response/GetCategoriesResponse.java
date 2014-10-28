@@ -89,7 +89,7 @@ public class GetCategoriesResponse extends ResponseParser {
 				}
 			}
 		} catch (Exception e) {
-			setCode(ResponseCode.CLIENT_ERROR_PARSE_JSON.getCode());
+			setCode(ResponseCode.CLIENT_ERROR_PARSE_JSON);
 			e.printStackTrace();
 		}
 	}

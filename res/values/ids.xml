@@ -37,5 +37,6 @@
     <item name="viewpager" type="id"/>
     <item name="promotion" type="id"/>
     <item name="submit" type="id"/>
+    <item name="loading" type="id"/>
 
 </resources>
