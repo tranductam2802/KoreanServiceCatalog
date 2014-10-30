@@ -1,20 +1,13 @@
 package gdg.nat.ksc.connection.request;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import gdg.nat.connection.EHttpMethod;
 import gdg.nat.connection.RequestParam;
 
-public class CheckCateVersionRequest extends RequestParam {
-	private static final long serialVersionUID = 7272992186161662869L;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-	private final String VERSION = "ver";
-	private String version = "";
-
-	public CheckCateVersionRequest(String version) {
-		this.version = version;
-	}
+public class DownloadIconRequest extends RequestParam {
+	private static final long serialVersionUID = -1261350446103419305L;
 
 	@Override
 	public EHttpMethod getHttpMethod() {
@@ -23,7 +16,7 @@ public class CheckCateVersionRequest extends RequestParam {
 
 	@Override
 	public String getApi() {
-		return "version";
+		return "zipimg";
 	}
 
 	@Override
@@ -31,7 +24,6 @@ public class CheckCateVersionRequest extends RequestParam {
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put(API, getApi());
-			jsonObject.put(VERSION, version);
 			return jsonObject.toString();
 		} catch (JSONException e) {
 			e.printStackTrace();

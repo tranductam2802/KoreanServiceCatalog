@@ -32,14 +32,14 @@ public class PreferenceUtil {
 
 	private final String KEY_CATEGORY_VERSION = "category_version";
 
-	public void saveCateVersion(int cateVersion) {
+	public void saveCateVersion(String cateVersion) {
 		GdgLog.i(TAG, "Save " + KEY_CATEGORY_VERSION + ": " + cateVersion);
-		getEditor().putInt(KEY_CATEGORY_VERSION, cateVersion).commit();
+		getEditor().putString(KEY_CATEGORY_VERSION, cateVersion).commit();
 	}
 
-	public int getCateVersion() {
-		int cateVersion = getSharedPreferences()
-				.getInt(KEY_CATEGORY_VERSION, 0);
+	public String getCateVersion() {
+		String cateVersion = getSharedPreferences().getString(
+				KEY_CATEGORY_VERSION, "");
 		GdgLog.i(TAG, "Get " + KEY_CATEGORY_VERSION + ": " + cateVersion);
 		return cateVersion;
 	}

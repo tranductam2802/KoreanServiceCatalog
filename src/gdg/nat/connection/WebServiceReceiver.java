@@ -1,9 +1,11 @@
 package gdg.nat.connection;
 
 import gdg.nat.ksc.connection.request.CheckCateVersionRequest;
+import gdg.nat.ksc.connection.request.DownloadIconRequest;
 import gdg.nat.ksc.connection.request.GetCategoriesRequest;
 import gdg.nat.ksc.connection.request.SearchRequest;
 import gdg.nat.ksc.connection.response.CheckCateVersionResponse;
+import gdg.nat.ksc.connection.response.DownloadIconResponse;
 import gdg.nat.ksc.connection.response.GetCategoriesResponse;
 import gdg.nat.ksc.connection.response.ListServiceResponse;
 import android.content.BroadcastReceiver;
@@ -45,6 +47,10 @@ public class WebServiceReceiver extends BroadcastReceiver {
 					GetCategoriesResponse categoriesResponse = new GetCategoriesResponse(
 							data, code);
 					responseParser = categoriesResponse;
+				} else if (requestParam instanceof DownloadIconRequest) {
+					DownloadIconResponse downloadIconResponse = new DownloadIconResponse(
+							data, code);
+					responseParser = downloadIconResponse;
 				} else if (requestParam instanceof SearchRequest) {
 					ListServiceResponse listServiceResponse = new ListServiceResponse(
 							data, code);

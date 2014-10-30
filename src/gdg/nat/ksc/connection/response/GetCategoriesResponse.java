@@ -13,10 +13,16 @@ public class GetCategoriesResponse extends ResponseParser {
 	private final String KEY_NAME = "name";
 	private final String KEY_IMG_ID = "imgId";
 	private final String KEY_SUB_CATE = "subCat";
+	private final String KEY_VERSION = "version";
 	private Categories categories;
+	private String version;
 
 	public Categories getCategories() {
 		return categories;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 
 	public GetCategoriesResponse(String data, int code) {
@@ -33,6 +39,7 @@ public class GetCategoriesResponse extends ResponseParser {
 				int code = jsonObject.getInt(KEY_CODE);
 				setCode(code);
 			}
+
 			if (jsonObject.has(KEY_DATA)) {
 				JSONArray array = jsonObject.getJSONArray(KEY_DATA);
 				int arrayLength = array.length();
@@ -87,6 +94,10 @@ public class GetCategoriesResponse extends ResponseParser {
 					}
 					categories.add(category);
 				}
+			}
+
+			if (jsonObject.has(KEY_VERSION)) {
+				this.version = jsonObject.getString(KEY_VERSION);
 			}
 		} catch (Exception e) {
 			setCode(ResponseCode.CLIENT_ERROR_PARSE_JSON);

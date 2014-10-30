@@ -7,13 +7,17 @@ import gdg.nat.connection.ResponseCode;
 import gdg.nat.connection.ResponseParser;
 import gdg.nat.ksc.R;
 import gdg.nat.ksc.connection.request.CheckCateVersionRequest;
+import gdg.nat.ksc.connection.request.DownloadIconRequest;
 import gdg.nat.ksc.connection.request.GetCategoriesRequest;
+import gdg.nat.ksc.connection.response.DownloadIconResponse;
+import gdg.nat.ksc.connection.response.GetCategoriesResponse;
 import gdg.nat.ksc.data.Categories;
 import gdg.nat.ksc.service.DownloadIconService;
 import gdg.nat.ksc.service.DownloadReceiver;
 import gdg.nat.ksc.service.DownloadReceiver.IUpdateDownloadProgress;
 import gdg.nat.util.ObjectCache;
 import gdg.nat.util.PreferenceUtil;
+import gdg.nat.util.StorageUtil;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +27,7 @@ import android.os.Handler;
 
 public class SplashActivity extends BaseActivity implements
 		IWebServiceReceiverListener {
-	private final int NUM_OF_PROGRESS = 1;
+	private final int NUM_OF_PROGRESS = 2;
 	private int progressTask = 0;
 
 	@Override
@@ -34,7 +38,7 @@ public class SplashActivity extends BaseActivity implements
 	}
 
 	private void requestVersion() {
-		int version = PreferenceUtil.getInstance().getCateVersion();
+		String version = PreferenceUtil.getInstance().getCateVersion();
 		CheckCateVersionRequest request = new CheckCateVersionRequest(version);
 		restartRequest(request);
 	}
@@ -44,13 +48,18 @@ public class SplashActivity extends BaseActivity implements
 		restartRequest(requestParam);
 	}
 
+	private void requestIcon() {
+		DownloadIconRequest request = new DownloadIconRequest();
+		restartRequest(request);
+	}
+
 	private void directToHome() {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
 	}
 
-	private void startDownloadIconService() {
+	public void startDownloadIconServices() {
 		Intent intent = new Intent(this, DownloadIconService.class);
 		DownloadReceiver downloadReceiver = new DownloadReceiver(new Handler());
 		downloadReceiver.setListener(new IUpdateDownloadProgress() {
@@ -84,7 +93,7 @@ public class SplashActivity extends BaseActivity implements
 			if (code == ResponseCode.SERVER_OUT_OF_DATE_API
 					|| ObjectCache.getInstance().getCategories() == null) {
 				requestCategory();
-				startDownloadIconService();
+				requestIcon();
 			} else if (code == ResponseCode.CLIENT_SUCCESS) {
 				directToHome();
 			} else {
@@ -137,10 +146,42 @@ public class SplashActivity extends BaseActivity implements
 						|| categories.getListCategories().size() == 0) {
 					requestCategory();
 				} else {
+					if (responseParser instanceof GetCategoriesResponse) {
+						String version = ((GetCategoriesResponse) responseParser)
+								.getVersion();
+						PreferenceUtil.getInstance().saveCateVersion(version);
+					}
 					progressTask++;
 					if (progressTask >= NUM_OF_PROGRESS) {
 						directToHome();
 					}
+				}
+			}
+		} else if (requestParam instanceof DownloadIconRequest) {
+			int code = responseParser.getCode();
+			if (code != ResponseCode.CLIENT_SUCCESS) {
+				Context context = this;
+				Builder builder = new Builder(context);
+				builder.setTitle(context.getString(R.string.title_error));
+				builder.setMessage(context.getString(R.string.error_unknow));
+				builder.setPositiveButton(
+						context.getString(R.string.error_btn_positive), null);
+				// Set error message
+				if (code == ResponseCode.CLIENT_ERROR_NO_CONNECTION) {
+					builder.setMessage(context
+							.getString(R.string.error_no_connection));
+				}
+				builder.show();
+			} else {
+				if (responseParser instanceof DownloadIconResponse) {
+					String zip = ((DownloadIconResponse) responseParser)
+							.getZip();
+					StorageUtil.saveIconFile(this, "zip",
+							StorageUtil.decodeBase64(zip));
+				}
+				progressTask++;
+				if (progressTask >= NUM_OF_PROGRESS) {
+					directToHome();
 				}
 			}
 		}

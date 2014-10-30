@@ -15,8 +15,7 @@
             android:layout_height="@dimen/ic_category_size"
             android:layout_marginTop="@dimen/ic_category_margin_top"
             android:contentDescription="@string/image_description"
-            android:scaleType="centerCrop"
-            android:src="@drawable/dummy" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@id/name"
