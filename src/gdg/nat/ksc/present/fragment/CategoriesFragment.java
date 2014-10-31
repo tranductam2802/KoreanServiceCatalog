@@ -7,6 +7,7 @@ import gdg.nat.connection.ResponseParser;
 import gdg.nat.ksc.R;
 import gdg.nat.ksc.data.Categories;
 import gdg.nat.ksc.data.Category;
+import gdg.nat.ksc.present.activity.MainActivity;
 import gdg.nat.ksc.present.adapter.CategoriesAdapter;
 import gdg.nat.navigation.INaviDefaultViewListener;
 import gdg.nat.util.ObjectCache;
@@ -16,14 +17,18 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 
 public class CategoriesFragment extends BaseFragment implements
-		INaviDefaultViewListener, IWebServiceReceiverListener {
+		INaviDefaultViewListener, IWebServiceReceiverListener,
+		OnItemClickListener {
 	private final String TAG = "TrackingCategoriesFragment";
 
 	private final String INTENT_NAME = "name";
@@ -82,6 +87,7 @@ public class CategoriesFragment extends BaseFragment implements
 		}
 
 		gridView.setAdapter(adapter);
+		gridView.setOnItemClickListener(this);
 
 		if (screenName.length() > 0) {
 			getNavigationBar().setTitle(screenName);
@@ -144,5 +150,24 @@ public class CategoriesFragment extends BaseFragment implements
 	@Override
 	public void onReceiver(RequestParam requestParam,
 			ResponseParser responseParser) {
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		FragmentActivity activity = getActivity();
+		if (activity != null && activity instanceof MainActivity) {
+			Category category = adapter.getItem(position);
+			List<Category> categories = category.getSubCategories();
+			if (categories != null && categories.size() > 0) {
+				CategoriesFragment fragment = CategoriesFragment.newInstance(
+						category.getName(), category.getId());
+				getNavigationManager().showPage(fragment);
+			} else {
+				ServiceFragment fragment = ServiceFragment.newInstance(
+						category.getId(), category.getName());
+				getNavigationManager().showPage(fragment);
+			}
+		}
 	}
 }

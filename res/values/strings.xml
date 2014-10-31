@@ -18,6 +18,8 @@
     <!-- Screen title -->
     <string name="title_home_screen">@string/app_title</string>
     <string name="title_new_service_screen">New services</string>
+    <string name="title_service_tab_ha_noi">Ha Noi</string>
+    <string name="title_service_tab_ho_chi_minh">Ho Chi Minh</string>
     <string name="title_service_tab_description">Description</string>
     <string name="title_service_tab_promotion">Promotion</string>
     <string name="title_service_tab_map">Map</string>
@@ -34,5 +36,6 @@
     <string name="title_error">System error</string>
     <string name="error_unknow">Unknow error</string>
     <string name="error_no_connection">No connection</string>
+    <string name="error_empty_data">No more item to show</string>
 
 </resources>

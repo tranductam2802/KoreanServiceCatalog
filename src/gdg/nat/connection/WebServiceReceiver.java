@@ -3,6 +3,7 @@ package gdg.nat.connection;
 import gdg.nat.ksc.connection.request.CheckCateVersionRequest;
 import gdg.nat.ksc.connection.request.DownloadIconRequest;
 import gdg.nat.ksc.connection.request.GetCategoriesRequest;
+import gdg.nat.ksc.connection.request.ListServiceRequest;
 import gdg.nat.ksc.connection.request.SearchRequest;
 import gdg.nat.ksc.connection.response.CheckCateVersionResponse;
 import gdg.nat.ksc.connection.response.DownloadIconResponse;
@@ -51,7 +52,8 @@ public class WebServiceReceiver extends BroadcastReceiver {
 					DownloadIconResponse downloadIconResponse = new DownloadIconResponse(
 							data, code);
 					responseParser = downloadIconResponse;
-				} else if (requestParam instanceof SearchRequest) {
+				} else if (requestParam instanceof SearchRequest
+						|| requestParam instanceof ListServiceRequest) {
 					ListServiceResponse listServiceResponse = new ListServiceResponse(
 							data, code);
 					responseParser = listServiceResponse;

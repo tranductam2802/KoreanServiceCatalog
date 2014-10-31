@@ -2,9 +2,6 @@ package gdg.nat.ksc.present.adapter;
 
 import gdg.nat.ksc.R;
 import gdg.nat.ksc.data.Category;
-import gdg.nat.ksc.present.activity.MainActivity;
-import gdg.nat.ksc.present.fragment.CategoriesFragment;
-import gdg.nat.ksc.present.fragment.ListServiceFragment;
 import gdg.nat.util.GetImage;
 
 import java.io.File;
@@ -16,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -80,28 +76,6 @@ public class CategoriesAdapter extends BaseAdapter {
 					.getAbsolutePath());
 			holder.imgIcon.setImageBitmap(myBitmap);
 		}
-
-		convertView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (context instanceof MainActivity) {
-					Category category = getItem(position);
-					List<Category> categories = category.getSubCategories();
-					if (categories != null && categories.size() > 0) {
-						CategoriesFragment fragment = CategoriesFragment
-								.newInstance(category.getName(),
-										category.getId());
-						((MainActivity) context).getNavigationManager()
-								.showPage(fragment);
-					} else {
-						ListServiceFragment fragment = ListServiceFragment
-								.newInstance("", category.getId());
-						((MainActivity) context).getNavigationManager()
-								.showPage(fragment);
-					}
-				}
-			}
-		});
 
 		return convertView;
 	}

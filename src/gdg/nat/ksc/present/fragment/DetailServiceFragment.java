@@ -2,17 +2,13 @@ package gdg.nat.ksc.present.fragment;
 
 import gdg.nat.base.BaseFragment;
 import gdg.nat.ksc.R;
+import gdg.nat.ksc.present.adapter.SlidingIndicatorPagerAdapter;
+import gdg.nat.view.FragmentPagerIndicatorItem;
 import gdg.nat.view.SlidingTabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +25,7 @@ public class DetailServiceFragment extends BaseFragment {
 
 	private SlidingTabLayout mSlidingTabLayout;
 	private ViewPager mViewPager;
-	private List<SamplePagerItem> mTabs = new ArrayList<SamplePagerItem>();
+	private SlidingIndicatorPagerAdapter adapter;
 
 	public static DetailServiceFragment newInstance(String id, String name) {
 		DetailServiceFragment fragment = new DetailServiceFragment();
@@ -40,42 +36,37 @@ public class DetailServiceFragment extends BaseFragment {
 		return fragment;
 	}
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (savedInstanceState == null) {
-			Bundle bundle = getArguments();
-			id = bundle.getString(INTENT_ID);
-			name = bundle.getString(INTENT_NAME);
-		} else {
-			id = savedInstanceState.getString(INTENT_ID);
-			name = savedInstanceState.getString(INTENT_NAME);
-		}
-		initData();
-	}
-
 	private void initData() {
-		String name = "Ha Noi";
-		String address = "Demo address of Ha Noi";
+		if (adapter == null)
+			return;
+		// Initial tab description
+		String tabDesName = getString(R.string.title_service_tab_description);
+		int tabDesIndicator = Color.BLUE;
+		String tabDesLink = "http://google.com";
+		BaseFragment tabDesFragment = WebFragment.newInstance(tabDesLink);
+		adapter.addTab(new FragmentPagerIndicatorItem(tabDesName,
+				tabDesIndicator, tabDesFragment));
 
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_description), Color.BLUE,
-				Color.GRAY, WebFragment.newInstance("http://google.com")));
+		// Initial tab promotion
+		String tabProName = getString(R.string.title_service_tab_promotion);
+		int tabProIndicator = Color.BLUE;
+		String tabProLink = "http://facebook.com";
+		BaseFragment tabProFragment = WebFragment.newInstance(tabProLink);
+		adapter.addTab(new FragmentPagerIndicatorItem(tabProName,
+				tabProIndicator, tabProFragment));
 
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_promotion), Color.RED,
-				Color.GRAY, WebFragment.newInstance("http://facebook.com")));
-
-		mTabs.add(new SamplePagerItem(
-				getString(R.string.title_service_tab_map), Color.YELLOW,
-				Color.GRAY, MapFragment.newInstance(name, address, 105.852283,
-						21.02785)));
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(INTENT_ID, id);
-		super.onSaveInstanceState(outState);
+		// Initial tab Map
+		String tabMapName = getString(R.string.title_service_tab_map);
+		int tabMapIndicator = Color.BLUE;
+		String locationName = "Ha Noi";
+		String locationDescription = "Demo address of Ha Noi";
+		double lat = 21.02785;
+		double lon = 105.852283;
+		Fragment tabMapFragment = MapFragment.newInstance(locationName,
+				locationDescription, lat, lon);
+		adapter.addTab(new FragmentPagerIndicatorItem(tabMapName,
+				tabMapIndicator, tabMapFragment));
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -86,27 +77,30 @@ public class DetailServiceFragment extends BaseFragment {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			if (bundle.containsKey(INTENT_ID)) {
+				id = bundle.getString(INTENT_ID);
+			}
+			if (bundle.containsKey(INTENT_NAME)) {
+				name = bundle.getString(INTENT_NAME);
+			}
+		}
+
+		// Find view and setup view pager
 		mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-		mViewPager.setAdapter(new SampleFragmentPagerAdapter(
-				getChildFragmentManager()));
+		if (adapter == null) {
+			adapter = new SlidingIndicatorPagerAdapter(
+					getChildFragmentManager());
+			initData();
+		}
+		mViewPager.setAdapter(adapter);
+
+		// Find view and setup tab layout
 		mSlidingTabLayout = (SlidingTabLayout) view
 				.findViewById(R.id.sliding_tabs);
 		mSlidingTabLayout.setViewPager(mViewPager);
-
-		mSlidingTabLayout
-				.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-
-					@Override
-					public int getIndicatorColor(int position) {
-						return mTabs.get(position).getIndicatorColor();
-					}
-
-					@Override
-					public int getDividerColor(int position) {
-						return mTabs.get(position).getDividerColor();
-					}
-
-				});
+		mSlidingTabLayout.setCustomTabColorizer(adapter.getTabColorizer());
 	}
 
 	@Override
@@ -117,58 +111,5 @@ public class DetailServiceFragment extends BaseFragment {
 	@Override
 	public String getFragmentTag() {
 		return TAG;
-	}
-
-	static class SamplePagerItem {
-		private final CharSequence mTitle;
-		private final int mIndicatorColor;
-		private final int mDividerColor;
-		private Fragment fragment;
-
-		SamplePagerItem(CharSequence title, int indicatorColor,
-				int dividerColor, Fragment fragment) {
-			mTitle = title;
-			mIndicatorColor = indicatorColor;
-			mDividerColor = dividerColor;
-			this.fragment = fragment;
-		}
-
-		Fragment createFragment() {
-			return fragment;
-		}
-
-		CharSequence getTitle() {
-			return mTitle;
-		}
-
-		int getIndicatorColor() {
-			return mIndicatorColor;
-		}
-
-		int getDividerColor() {
-			return mDividerColor;
-		}
-	}
-
-	class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-
-		SampleFragmentPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int i) {
-			return mTabs.get(i).createFragment();
-		}
-
-		@Override
-		public int getCount() {
-			return mTabs.size();
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return mTabs.get(position).getTitle();
-		}
 	}
 }

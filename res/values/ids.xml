@@ -38,5 +38,7 @@
     <item name="promotion" type="id"/>
     <item name="submit" type="id"/>
     <item name="loading" type="id"/>
+    <item name="progress" type="id"/>
+    <item name="empty" type="id"/>
 
 </resources>

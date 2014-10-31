@@ -10,6 +10,10 @@ import com.google.android.gms.location.LocationClient;
 public class LocationUtil {
 	private static final String TAG = "TrackingLocationUtil";
 
+	public static final int CITY_ALL = 0;
+	public static final int CITY_HA_NOI = 4;
+	public static final int CITY_HO_CHI_MINH = 8;
+
 	public static boolean isServicesConnected(Context context) {
 		// Check that Google Play services is available
 		int resultCode = GooglePlayServicesUtil
