@@ -8,6 +8,8 @@
     <WebView
         android:id="@id/website"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:visibility="invisible" />
 
 </FrameLayout>

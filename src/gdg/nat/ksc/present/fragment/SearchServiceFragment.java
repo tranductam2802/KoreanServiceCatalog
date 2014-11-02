@@ -6,14 +6,13 @@ import gdg.nat.connection.RequestParam;
 import gdg.nat.connection.ResponseCode;
 import gdg.nat.connection.ResponseParser;
 import gdg.nat.ksc.R;
-import gdg.nat.ksc.connection.request.ListServiceRequest;
+import gdg.nat.ksc.connection.request.SearchRequest;
 import gdg.nat.ksc.connection.response.ListServiceResponse;
 import gdg.nat.ksc.data.Categories;
 import gdg.nat.ksc.data.Service;
 import gdg.nat.ksc.present.activity.MainActivity;
 import gdg.nat.ksc.present.adapter.ListServiceAdapter;
 import gdg.nat.navigation.INaviDefaultViewListener;
-import gdg.nat.util.LocationUtil;
 import gdg.nat.util.ObjectCache;
 
 import java.util.List;
@@ -28,42 +27,47 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class ListServiceFragment extends BaseFragment implements
+public class SearchServiceFragment extends BaseFragment implements
 		INaviDefaultViewListener, IWebServiceReceiverListener{
 	private final String TAG = "TrackingSearch";
 	
-	private final String INTENT_SCREEN_NAME = "screen_name";
+	private final String INTENT_KEYWORD = "keyword";
 	private final String INTENT_CATE_ID = "cate_id";
-	private final String INTENT_CITY = "city";
 	
-	private String screenName = "";
+	private String keyword = "";
 	private String cateID = "";
-	private int city = LocationUtil.CITY_ALL;
 	
 	private ListServiceAdapter adapter;
 	private ListView listView;
 	
-	public static ListServiceFragment newInstance(String cateId, int city,
-			String screenName){
-		if(city != LocationUtil.CITY_HA_NOI
-				&& city != LocationUtil.CITY_HO_CHI_MINH)
-			throw new IllegalArgumentException("city value(" + city
-					+ ") is not Ha Noi or Ho Chi Minh");
-		ListServiceFragment fragment = new ListServiceFragment();
+	public static SearchServiceFragment newInstance(String keyword,
+			String cateId){
+		SearchServiceFragment fragment = new SearchServiceFragment();
 		Bundle bundle = new Bundle();
-		bundle.putString(fragment.INTENT_SCREEN_NAME, screenName);
+		bundle.putString(fragment.INTENT_KEYWORD, keyword);
 		bundle.putString(fragment.INTENT_CATE_ID, cateId);
-		bundle.putInt(fragment.INTENT_CITY, city);
 		fragment.setArguments(bundle);
 		return fragment;
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState){
-		outState.putString(INTENT_SCREEN_NAME, screenName);
+		outState.putString(INTENT_KEYWORD, keyword);
 		outState.putString(INTENT_CATE_ID, cateID);
-		outState.putInt(INTENT_CITY, city);
 		super.onSaveInstanceState(outState);
+	}
+	
+	private void setKeyword(String keyword){
+		this.keyword = keyword;
+		getNavigationBar().setTitle(keyword);
+	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+		if(keyword.length() > 0){
+			getNavigationBar().setTitle(keyword);
+		}
 	}
 	
 	@Override
@@ -78,28 +82,20 @@ public class ListServiceFragment extends BaseFragment implements
 		Bundle bundle = getArguments();
 		
 		if(savedInstanceState != null){
-			if(screenName.length() == 0
-					&& savedInstanceState.containsKey(INTENT_SCREEN_NAME)){
-				screenName = savedInstanceState.getString(INTENT_SCREEN_NAME);
+			if(keyword.length() == 0
+					&& savedInstanceState.containsKey(INTENT_KEYWORD)){
+				setKeyword(savedInstanceState.getString(INTENT_KEYWORD));
 			}
 			if(cateID.length() == 0
 					&& savedInstanceState.containsKey(INTENT_CATE_ID)){
 				cateID = savedInstanceState.getString(INTENT_CATE_ID);
 			}
-			if(city == LocationUtil.CITY_ALL
-					&& savedInstanceState.containsKey(INTENT_CITY)){
-				city = savedInstanceState.getInt(INTENT_CITY);
-			}
 		}else if(bundle != null){
-			if(screenName.length() == 0
-					&& bundle.containsKey(INTENT_SCREEN_NAME)){
-				screenName = bundle.getString(INTENT_SCREEN_NAME);
+			if(keyword.length() == 0 && bundle.containsKey(INTENT_KEYWORD)){
+				setKeyword(bundle.getString(INTENT_KEYWORD));
 			}
 			if(cateID.length() == 0 && bundle.containsKey(INTENT_CATE_ID)){
 				cateID = bundle.getString(INTENT_CATE_ID);
-			}
-			if(city == LocationUtil.CITY_ALL && bundle.containsKey(INTENT_CITY)){
-				city = bundle.getInt(INTENT_CITY);
 			}
 		}
 		
@@ -124,11 +120,12 @@ public class ListServiceFragment extends BaseFragment implements
 	}
 	
 	private void initData(){
-		requestListService(cateID, city);
+		requestSearch(keyword, cateID);
 	}
 	
-	private void requestListService(String cateId, int city){
-		ListServiceRequest request = new ListServiceRequest(cateId, city);
+	private void requestSearch(String keyword, String cateId){
+		getNavigationBar().setTitle(keyword);
+		SearchRequest request = new SearchRequest(keyword, cateId);
 		restartRequest(request);
 	}
 	
@@ -153,9 +150,10 @@ public class ListServiceFragment extends BaseFragment implements
 	@Override
 	public void onSearch(String keyword){
 		if(keyword == null || keyword.length() <= 0) return;
-		SearchServiceFragment fragment = SearchServiceFragment.newInstance(
-				keyword, cateID);
-		getNavigationManager().showPage(fragment);
+		if(this.keyword.equals(keyword)) return;
+		this.keyword = keyword;
+		requestSearch(keyword, cateID);
+		adapter.clear();
 	}
 	
 	@Override
@@ -171,8 +169,7 @@ public class ListServiceFragment extends BaseFragment implements
 		View view = listView.getEmptyView();
 		view.findViewById(R.id.progress).setVisibility(View.GONE);
 		view.findViewById(R.id.empty).setVisibility(View.VISIBLE);
-		if(requestParam instanceof ListServiceRequest){
-			if(((ListServiceRequest) requestParam).getCity() != city){ return; }
+		if(requestParam instanceof SearchRequest){
 			int code = responseParser.getCode();
 			if(code == ResponseCode.SERVER_SUCCESS){
 				if(responseParser instanceof ListServiceResponse){
