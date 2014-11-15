@@ -5,6 +5,9 @@ public class Service {
 	public static final int RATE_MEDIUM = 1;
 	public static final int RATE_HIGH = 2;
 
+	public static final double DEFAULT_LON = 105.852283;
+	public static final double DEFAULT_LAT = 21.02785;
+
 	private String id;
 	private String name;
 	private String address;
@@ -76,8 +79,8 @@ public class Service {
 		this.name = name;
 		this.address = address;
 		this.rate = rate;
-		this.lon = 105.852283;
-		this.lat = 21.02785;
+		this.lon = lon;
+		this.lat = lat;
 		this.isPromotion = isPromotion;
 		this.distance = 0;
 	}
@@ -93,8 +96,8 @@ public class Service {
 		this.description = description;
 		this.promotion = promotion;
 		this.rate = rate;
-		this.lon = 105.852283;
-		this.lat = 21.02785;
+		this.lon = lon;
+		this.lat = lat;
 		this.isPromotion = isPromotion;
 		this.distance = 0;
 	}

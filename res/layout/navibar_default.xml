@@ -52,7 +52,9 @@
             android:background="@drawable/bg_navi_search_box"
             android:gravity="left|center_vertical"
             android:hint="@string/hint_search"
+            android:imeOptions="actionSearch"
             android:padding="5dp"
+            android:singleLine="true"
             android:visibility="gone" />
     </LinearLayout>
 

@@ -8,11 +8,30 @@
     <TextView
         android:id="@id/phone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#33b5e5" />
 
     <TextView
         android:id="@id/website"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
 
 </LinearLayout>

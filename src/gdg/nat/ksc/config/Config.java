@@ -28,7 +28,7 @@ public class Config {
 	public static final String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
 
 	/** Request read time-out */
-	public static final int TIMEOUT_READ = 15 * 1000;
+	public static final int TIMEOUT_READ = 30 * 1000;
 
 	/** Request connection time-out */
 	public static final int TIMEOUT_CONNECT = 15 * 1000;

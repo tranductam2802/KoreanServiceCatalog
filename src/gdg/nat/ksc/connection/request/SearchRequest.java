@@ -35,7 +35,7 @@ public class SearchRequest extends RequestParam {
 		try {
 			jsonObject.put(API, getApi());
 			jsonObject.put(KEYWORD, keyword);
-			jsonObject.put(CATE_ID, cateId);
+			jsonObject.put(CATE_ID, Integer.parseInt(cateId));
 			return jsonObject.toString();
 		} catch (JSONException e) {
 			e.printStackTrace();

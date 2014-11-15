@@ -8,8 +8,10 @@ import gdg.nat.util.GdgLog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -174,6 +176,22 @@ public class NavigationBar extends RelativeLayout implements IOnNavigation {
 					}
 				}
 			});
+			edtSearch
+					.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+						@Override
+						public boolean onEditorAction(TextView v, int actionId,
+								KeyEvent event) {
+							if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+								String keyword = v.getText().toString();
+								if (keyword.length() > 0) {
+									((INaviDefaultViewListener) activePage)
+											.onSearch(keyword);
+								}
+								return true;
+							}
+							return false;
+						}
+					});
 		}
 	}
 

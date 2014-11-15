@@ -39,7 +39,7 @@ public class ListServiceRequest extends RequestParam{
 		JSONObject jsonObject = new JSONObject();
 		try{
 			jsonObject.put(API, getApi());
-			jsonObject.put(CATE_ID, cateId);
+			jsonObject.put(CATE_ID, Integer.parseInt(cateId));
 			jsonObject.put(CITY, city);
 			return jsonObject.toString();
 		}catch(JSONException e){
