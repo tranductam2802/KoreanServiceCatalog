@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name_frame"
         android:layout_toLeftOf="@id/avatar"
-        android:drawableLeft="@drawable/ic_address"
         android:drawablePadding="4dp"
         android:ellipsize="none"
         android:lines="2"

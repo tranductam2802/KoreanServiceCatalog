@@ -183,17 +183,7 @@ public class DetailServiceFragment extends BaseFragment implements
 		txtName.setText(name);
 
 		TextView txtAddress = (TextView) view.findViewById(R.id.address);
-		StringBuilder builder = new StringBuilder();
-		builder.append(address).append(ENTER);
-		if (website.contains(HTTP)) {
-			builder.append(website).append(ENTER);
-		} else {
-			if (website.length() > 0) {
-				builder.append(HTTP).append(website).append(ENTER);
-			}
-		}
-		builder.append(phone).append(ENTER);
-		txtAddress.setText(builder.toString());
+		txtAddress.setText(address);
 
 		Button btnSubmit = (Button) view.findViewById(R.id.submit);
 		btnSubmit.setOnClickListener(new OnClickListener() {

@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/ads"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
         android:background="@color/primary"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@android:color/transparent"
@@ -21,13 +22,14 @@
         android:scrollbars="none"
         android:stretchMode="columnWidth" />
 
-    <FrameLayout
+    <TextView
         android:id="@id/ads"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-
-        <include layout="@layout/item_service" />
-    </FrameLayout>
+        android:layout_height="@dimen/navi_bar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg_navibar"
+        android:gravity="center"
+        android:text="@string/app_contact"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
