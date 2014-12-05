@@ -7,7 +7,6 @@ import gdg.nat.ksc.present.adapter.SlidingIndicatorPagerAdapter;
 import gdg.nat.navigation.INaviDefaultViewListener;
 import gdg.nat.view.FragmentPagerIndicatorItem;
 import gdg.nat.view.SlidingTabLayout;
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -185,45 +184,34 @@ public class DetailServiceFragment extends BaseFragment implements
 		TextView txtAddress = (TextView) view.findViewById(R.id.address);
 		txtAddress.setText(address);
 
-		Button btnSubmit = (Button) view.findViewById(R.id.submit);
-		btnSubmit.setOnClickListener(new OnClickListener() {
+		Button btnPhone = (Button) view.findViewById(R.id.phone);
+		if (phone != null && phone.length() > 0) {
+			btnPhone.setVisibility(View.VISIBLE);
+		} else {
+			btnPhone.setVisibility(View.GONE);
+		}
+		btnPhone.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final String phone = service.getPhone();
-				final String web = service.getWebsite();
-				if (phone.length() > 0 && web.length() > 0) {
-					Dialog dialog = new Dialog(getActivity(),
-							android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
-					dialog.setContentView(R.layout.dialog_contact);
-					dialog.show();
-					TextView txtPhone = (TextView) dialog
-							.findViewById(R.id.phone);
-					txtPhone.setText(phone);
-					txtPhone.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							call(phone);
-						}
-					});
-
-					TextView txtWeb = (TextView) dialog
-							.findViewById(R.id.website);
-					txtWeb.setText(web);
-					txtWeb.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							visit(web);
-						}
-					});
-				} else {
-					if (phone.length() > 0) {
-						call(phone);
-					} else if (web.length() > 0) {
-						visit(web);
-					}
-				}
+				call(phone);
 			}
 		});
+		Button btnWeb = (Button) view.findViewById(R.id.website);
+		if (website != null && website.length() > 0) {
+			btnWeb.setVisibility(View.VISIBLE);
+		} else {
+			btnWeb.setVisibility(View.GONE);
+		}
+		btnWeb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String web = service.getWebsite();
+				visit(web);
+			}
+		});
+
+		view.findViewById(R.id.more).setVisibility(View.GONE);
 	}
 
 	private void call(String phoneNum) {

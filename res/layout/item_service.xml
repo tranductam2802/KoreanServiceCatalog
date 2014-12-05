@@ -47,21 +47,32 @@
         android:layout_alignParentBottom="true"
         android:background="@color/divider_service_list" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@id/avatar"
-        android:layout_width="@dimen/ava_service_size"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/ava_service_size"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="@dimen/txt_name_service_padding_small" >
 
         <Button
-            android:id="@id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@id/website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/ic_link" />
+
+        <Button
+            android:id="@id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:background="@drawable/ic_call" />
 
         <LinearLayout
+            android:id="@id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -87,6 +98,6 @@
                 android:contentDescription="@string/image_description"
                 android:src="@drawable/ic_promotion" />
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>

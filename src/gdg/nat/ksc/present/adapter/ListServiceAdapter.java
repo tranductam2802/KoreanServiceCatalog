@@ -115,7 +115,8 @@ public class ListServiceAdapter extends BaseAdapter {
 					.findViewById(R.id.distance);
 			holder.promotion = (ImageView) convertView
 					.findViewById(R.id.promotion);
-			holder.btnSubmit = (Button) convertView.findViewById(R.id.submit);
+			holder.btnPhone = (Button) convertView.findViewById(R.id.phone);
+			holder.btnWeb = (Button) convertView.findViewById(R.id.website);
 			convertView.setTag(holder);
 		} else {
 			holder = (ServiceHolder) convertView.getTag();
@@ -154,7 +155,8 @@ public class ListServiceAdapter extends BaseAdapter {
 		} else {
 			holder.promotion.setVisibility(View.GONE);
 		}
-		holder.btnSubmit.setVisibility(View.GONE);
+		holder.btnPhone.setVisibility(View.GONE);
+		holder.btnWeb.setVisibility(View.GONE);
 
 		return convertView;
 	}
@@ -165,6 +167,7 @@ public class ListServiceAdapter extends BaseAdapter {
 		public TextView address;
 		public TextView distance;
 		public ImageView promotion;
-		public Button btnSubmit;
+		public Button btnPhone;
+		public Button btnWeb;
 	}
 }
